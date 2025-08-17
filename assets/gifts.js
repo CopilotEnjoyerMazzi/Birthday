@@ -111,35 +111,48 @@ const MIN_GIFT_DISTANCE = 110;
 
 // Função para verificar se uma posição é segura (não sobrepõe elementos)
 function isPositionSafe(top, left) {
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
-  const topPx = (parseFloat(top) / 100) * viewportHeight;
-  const leftPx = (parseFloat(left) / 100) * viewportWidth;
-  const giftSize = 50;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
 
-  // Margem/laterais menos agressivas
-  if (topPx < 64) return false;                          // topo (nav)
-  if (topPx + giftSize > viewportHeight - 64) return false; // bottom (footer/controlador)
-  if (leftPx < 24 || leftPx + giftSize > viewportWidth - 24) return false;
+  // top/left são o CENTRO do presente (por causa do translate(-50%,-50%))
+  const centerY = (parseFloat(top) / 100) * vh;
+  const centerX = (parseFloat(left) / 100) * vw;
+  const half = 20; // metade do tamanho (gift 40x40)
 
-  // Evitar controlador de música (canto BR)
-  const mTop = viewportHeight - 150, mLeft = viewportWidth - 220;
-  if (topPx + giftSize > mTop && leftPx + giftSize > mLeft) return false;
+  // Margens de segurança (nav/topo e rodapé/controladores)
+  if (centerY - half < 72) return false;
+  if (centerY + half > vh - 96) return false;
+  if (centerX - half < 16) return false;
+  if (centerX + half > vw - 16) return false;
 
-  // Hit-test: não posiciona em cima de elementos interativos
-  const probe = document.elementFromPoint(Math.min(leftPx + 20, viewportWidth-1), Math.min(topPx + 20, viewportHeight-1));
-  if (probe && probe.closest('.btn, .option, .nav, .toolbar, input, textarea, a, .modal.show, .color-bubble, #colorsGrid')) return false;
+  // Evitar controlador de música (canto inferior direito)
+  const ctrlTop = vh - 180, ctrlLeft = vw - 260;
+  if (centerY + half > ctrlTop && centerX + half > ctrlLeft) return false;
 
-  // Dentro do container: evita cards/grid/botões das cores
+  // Em cores.html: não colocar presente dentro do .container (grade/cards)
+  const page = (location.pathname.split('/').pop()||'index.html').toLowerCase();
   const container = document.querySelector('.container');
   if (container) {
     const r = container.getBoundingClientRect();
-    const inside = topPx >= r.top && topPx + giftSize <= r.bottom && leftPx >= r.left && leftPx + giftSize <= r.right;
-    if (inside) {
-      const probe2 = document.elementFromPoint(leftPx + giftSize/2, topPx + giftSize/2);
-      if (probe2 && probe2.closest('.card, .letter, .option, .toolbar, .nav, .color-bubble, #colorsGrid')) return false;
+    const insideContainer = centerX >= r.left && centerX <= r.right && centerY >= r.top && centerY <= r.bottom;
+    if (page === 'cores.html' && insideContainer) return false;
+  }
+
+  // Hit-tests em múltiplos pontos para evitar UI/controles
+  const samples = [
+    [centerX, centerY],
+    [Math.min(centerX + half, vw - 1), centerY],
+    [Math.max(centerX - half, 0), centerY],
+    [centerX, Math.min(centerY + half, vh - 1)],
+    [centerX, Math.max(centerY - half, 0)]
+  ];
+  for (const [x, y] of samples) {
+    const node = document.elementFromPoint(x, y);
+    if (node && node.closest('.btn, .option, .nav, .toolbar, input, textarea, a, .modal.show, .card, .letter, .color-bubble, #colorsGrid, #lockGate, #colorsArea .card')) {
+      return false;
     }
   }
+
   return true;
 }
 

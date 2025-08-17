@@ -186,7 +186,8 @@
   // ===== Handlers =====
   function handleSimple(c){
     openedColor = c;
-    openColorModal(c, rand(c.msgs));
+    // openColorModal(c, pickRandomMessage(c)); // antigo
+    openColorModal(c, nextNonRepeating(c.key, c.msgs)); // novo: sem repetição
     setActions([{ label:'Fechar', onClick:()=>closeColor() }]);
   }
 
@@ -209,7 +210,8 @@
       return;
     }
 
-    openColorModal(c, rand(c.msgs));
+    // openColorModal(c, pickRandomMessage(c)); // antigo
+    openColorModal(c, nextNonRepeating(c.key, c.msgs)); // novo
     localStorage.setItem(key(c.key,'last'), String(tNow));
     setActions([{label:'Fechar', onClick:()=>el.modal.classList.remove('show')}]);
   }
@@ -221,7 +223,9 @@
     const left = WEEK - (now()-last);
     const remaining = Math.max(0, 3 - used);
 
-    const base = `${rand(c.msgs)}\nRestantes: ${remaining}/3.`;
+    var baseMsg = nextNonRepeating(c.key, c.msgs); // novo
+    // var baseMsg = pickRandomMessage(c); // antigo
+    var base = baseMsg + '\nRestantes: ' + (Math.max(0, 3 - used)) + '/3.';
     openColorModal(c, remaining<=0 ? `${base}\nVocê já usou todos os vales.` :
       (last && left>0 ? `${base}\nPróximo resgate em ${fmtDelta(left)}.` : base));
 
@@ -352,5 +356,34 @@
     const c = rand(candidates);
     showColor(c);
   });
+
+  // Mensagens sem repetição até consumir todas (fila embaralhada por cor)
+  function _shuffleIdx(n){
+    var a = []; for (var i=0;i<n;i++) a.push(i);
+    for (var i=n-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+  function _qKey(base){ return 'colors_queue_' + base; }
+  function _loadQueue(base, len){
+    try {
+      var raw = localStorage.getItem(_qKey(base));
+      if (raw) {
+        var q = JSON.parse(raw);
+        if (Array.isArray(q) && q.every(function(i){ return Number.isInteger(i) && i>=0 && i<len; })) return q;
+      }
+    } catch(e){}
+    var fresh = _shuffleIdx(len);
+    try { localStorage.setItem(_qKey(base), JSON.stringify(fresh.slice())); } catch(e){}
+    return fresh;
+  }
+  function _saveQueue(base,q){ try{ localStorage.setItem(_qKey(base), JSON.stringify(q)); }catch(e){} }
+  function nextNonRepeating(baseKey, list){
+    if (!Array.isArray(list) || list.length===0) return '';
+    var q = _loadQueue(baseKey, list.length);
+    if (!q.length) q = _shuffleIdx(list.length);
+    var idx = q.shift();
+    _saveQueue(baseKey, q);
+    return list[idx] != null ? list[idx] : list[0];
+  }
 })();
 
