@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cartas 💜</title>
+  <link rel="stylesheet" href="assets/styles.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div><a href="index.html">← Voltar</a></div>
+      <div class="links"><span class="badge purple">Cartas</span></div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>🎂 Feliz Aniversário</h2>
+        <div id="cartaAniversario"></div>
+      </div>
+
+      <div class="card">
+        <h2>💌 Quando sentir saudade</h2>
+        <div id="cartaSaudade"></div>
+      </div>
+    </div>
+
+    <div class="footer">💜</div>
+  </div>
+
+  <script src="assets/utils.js"></script>
+  <script src="assets/letters.js"></script>
+  <script src="assets/main.js"></script>
+  <script src="assets/gifts.js"></script>
+
+  <!-- Modal de presente -->
+  <div class="modal" id="giftModal">
+    <div class="dialog">
+      <h3 id="giftTitle">Presentinho</h3>
+      <p id="giftContent">Coloque seu print/áudio depois (pasta <code>assets/media</code>) e edite o texto aqui.</p>
+      <div id="giftMedia"></div>
+      <div class="row" style="margin-top:16px">
+        <button class="btn" onclick="closeGift()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+

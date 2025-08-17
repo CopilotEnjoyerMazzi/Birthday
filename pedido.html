@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pedido 💞</title>
+  <link rel="stylesheet" href="assets/styles.min.css"/>
+  <style>
+    body{
+      background: radial-gradient(1200px 600px at 50% -10%, #ff7ab340 0%, transparent 60%), #0d0a12;
+      overflow-x:hidden;
+    }
+    .hearts{position:fixed;inset:0;pointer-events:none;z-index:0}
+    .heart{
+      position:absolute;width:14px;height:14px;opacity:.85;
+      background: radial-gradient(circle at 30% 30%, #fff, #ff8fb3 60%, #e2558a);
+      border-radius:2px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.4));
+      top: calc(100vh + 10px);
+      transform: rotate(45deg) scale(var(--s,1));
+      will-change: transform;
+    }
+    @keyframes floatUp{
+      from{ transform: translate3d(0,0,0) rotate(45deg) scale(var(--s,1)); }
+      to  { transform: translate3d(0,-120vh,0) rotate(45deg) scale(var(--s,1)); }
+    }
+
+    .center{position:relative;z-index:1;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:48px 16px}
+    .letter{
+      width:min(840px,92vw); border-radius:22px; overflow:hidden; cursor:pointer;
+      border:1px solid #ffffff24; box-shadow:0 30px 80px rgba(212,58,112,.35), inset 0 0 0 1px #ffffff14;
+      transition: transform .2s ease, box-shadow .3s ease;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+                  radial-gradient(120% 120% at -10% -10%, #4b2536 0%, #3b1e2e 35%, #2b1826 70%, #1d1420 100%);
+    }
+    .letter:active{ transform: scale(.995); }
+
+    /* Frente (fechada): só emoji + CTA com bom contraste */
+    .front{
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:44px 20px 40px 20px;
+      color:#ffd1e3; text-align:center;
+      background: linear-gradient(180deg, rgba(255,192,224,.16), rgba(255,192,224,.06));
+    }
+    .front .emoji{ font-size:64px; filter: drop-shadow(0 6px 16px rgba(255,192,224,.25)); }
+    .front .cta{ margin-top:10px; font-weight:800; letter-spacing:.2px; color:#ffe3ee; }
+
+    /* Papel (aberta) — rosa escuro no fundo, texto rosa claro */
+    .paper{
+      display:none; padding:28px 26px;
+      background: linear-gradient(180deg, #3a2431, #452237);
+      color:#ffdbe7;
+    }
+    .paper .para{ margin:0 0 14px 0; line-height:1.85; color:#ffdbe7; }
+    .paper .final{
+      display:block; margin-top:18px; padding-top:12px;
+      border-top:2px dashed rgba(255,209,227,.4);
+      color:#ffb3cd; font-weight:900; font-size:18px; letter-spacing:.2px; text-align:center;
+      text-shadow:0 1px 0 #ffffff88, 0 8px 24px rgba(255,179,205,.22);
+    }
+
+    /* Estados */
+    .letter.open .front{ display:none; }
+    .letter.open .paper{ display:block; }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="container">
+    <div class="nav">
+      <div><a href="index.html">← Voltar</a></div>
+      <div class="links"><span class="badge purple">Pedido 💞</span></div>
+    </div>
+  </div>
+
+  <div class="center">
+    <div class="letter closed" id="loveLetter" aria-expanded="false" role="button" tabindex="0">
+      <div class="front">
+        <div class="emoji">💌</div>
+        <div class="cta">Clique para abrir</div>
+      </div>
+      <div class="paper">
+        <p class="para">[Seu texto aqui. Este é um conteúdo padrão apenas para mostrar o estilo da carta aberta. Você pode escrever o quanto quiser.]</p>
+        <p class="para">[A paleta é rosa escuro no fundo com texto rosa claro, mantendo legibilidade e combinando com o tema.]</p>
+        <span class="final">E aí, pronta para recomeçar do jeito certo?</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+// Corações sobem a partir do rodapé com animação definida inline (evita overrides)
+(function(){
+  const wrap = document.getElementById('hearts');
+  const N = 24;
+  for (let i=0;i<N;i++){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.style.left = (Math.random()*100).toFixed(2) + 'vw';
+
+    const dur = (10 + Math.random()*14).toFixed(2);
+    const delay = (-Math.random()*14).toFixed(2);
+
+    h.style.animationName = 'floatUp';
+    h.style.animationDuration = dur + 's';
+    h.style.animationTimingFunction = 'linear';
+    h.style.animationIterationCount = 'infinite';
+    h.style.animationDelay = delay + 's';
+
+    h.style.setProperty('--s', (0.8 + Math.random()*1.2).toFixed(2));
+    wrap.appendChild(h);
+  }
+})();
+    // Abre/fecha carta (conteúdo só aparece ao abrir)
+    (function(){
+      const letter = document.getElementById('loveLetter');
+      const open = () => { letter.classList.add('open'); letter.setAttribute('aria-expanded','true'); };
+      const close = () => { letter.classList.remove('open'); letter.setAttribute('aria-expanded','false'); };
+      letter.addEventListener('click', () => { letter.classList.contains('open') ? close() : open(); });
+      letter.addEventListener('keydown', (e)=>{ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); letter.click(); }});
+    })();
+  </script>
+</body>
+</html>
+
+
+

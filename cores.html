@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cores 💜</title>
+  <link rel="stylesheet" href="assets/styles.min.css"/>
+</head>
+<body>
+  <div class="nav">
+    <div><a href="index.html">← Voltar</a></div>
+    <div class="links"></div>
+  </div>
+
+  <div class="container">
+    <div id="lockGate" class="card">
+      <h1>🔐 Desbloquear</h1>
+      <p>Digite a frase secreta para entrar na página das cores e surpresas.</p>
+      <div class="lock">
+        <input id="secretInput" placeholder="Digite a frase secreta..." style="flex:1;margin-right:12px"/>
+        <button class="btn" id="btnUnlock">🔓 Entrar</button>
+      </div>
+      <p class="small" style="margin-top:16px;text-align:center">💡 Dica: o quiz gera uma lista de números. Lembre do nosso primeiro enigma.</p>
+    </div>
+
+    <div id="colorsArea" class="hidden">
+      <div class="card">
+        <h1>🎨 Cores & Surpresas</h1>
+        <p>Clique em uma cor para ver uma mensagem. O botão Aleatório sorteia tudo.</p>
+        <div class="row" style="margin-top:16px">
+          <button class="btn" id="btnRandom">🎲 Aleatório</button>
+        </div>
+      </div>
+      <div class="grid" id="colorsGrid" style="margin-top:24px"></div>
+    </div>
+
+    <div class="footer">💜</div>
+  </div>
+
+  <div class="modal" id="colorModal">
+    <div class="dialog">
+      <h3 id="colorTitle">Cor</h3>
+      <p id="colorMsg">Mensagem</p>
+      <div class="row" id="colorActions" style="margin-top:10px; gap:10px"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="giftModal">
+    <div class="dialog">
+      <h3 id="giftTitle">Presente</h3>
+      <p id="giftContent" class="muted"></p>
+      <div id="giftMedia"></div>
+      <div class="row center" style="margin-top:12px">
+        <button class="btn" onclick="closeGift()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/utils.js" defer></script>
+  <script src="assets/config.js" defer></script>
+  <script src="assets/main.js" defer></script>
+  <script src="assets/colors.js" defer></script>
+  <script src="assets/gifts.js" defer></script>
+</body>
+</html>
+
+
+

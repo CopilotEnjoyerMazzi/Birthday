@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>💜 Presente</title>
+  <link rel="stylesheet" href="assets/styles.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="brand"><strong>💜 Presente</strong> <span class="badge purple">by Mazzi</span></div>
+      <div class="links">
+        <a href="index.html">Início</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="cores.html">Cores</a>
+        <a href="cartas.html">Cartas</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1>Oi :)</h1>
+      <p>Fiz este site com carinho, pode acessar quando quiser. Tem um quizzinho com um enigma, uma página de cores com surpresas, e duas cartas minhas pra você.</p>
+      <div class="row" style="margin-top:32px;gap:16px">
+        <a class="btn" href="quiz.html">🎯 Começar pelo Quiz</a>
+        <a class="btn ghost" href="cores.html">🎨 Ir para as Cores</a>
+        <a class="btn secondary" href="cartas.html">💌 Ler Cartas</a>
+      </div>
+      <p class="small" style="margin-top:20px;text-align:center">Dica geral: algumas coisinhas podem estar escondidas 😉</p>
+    </div>
+
+    <div class="grid" style="margin-top:32px">
+      <div class="card">
+        <h2>🎯 Como funciona o Quiz</h2>
+        <p>Responda às 15 perguntas. Você tem <strong>3 pulos</strong>, <strong>3 pausas</strong>, <strong>3 dicas</strong> e <strong>3 estouros</strong> de tempo permitidos. Os pulos podem revelar perguntas especiais! No final, aparece uma lista de números — lembre do nosso primeiro enigma 😉</p>
+        <div class="row" style="margin-top:16px">
+          <span class="badge ok">Fácil: 30s</span>
+          <span class="badge warn">Médio: 60s</span>
+          <span class="badge err">Difícil: 90s</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🎁 Presentinhos</h2>
+        <p>Ao longo das páginas existem presentinhos escondidos (prints, frases, e outras coisinhas). Clique se encontrar!</p>
+        <div style="margin-top:16px;text-align:center">
+          <span style="font-size:24px">🎁</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">Feito com carinho 💜</div>
+  </div>
+
+  <div class="modal" id="giftModal">
+    <div class="dialog">
+      <h3 id="giftTitle">Presente</h3>
+      <p id="giftContent" class="muted"></p>
+      <div id="giftMedia"></div>
+      <div class="row center" style="margin-top:12px">
+        <button class="btn" onclick="closeGift()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="entry-content" tabindex="0" role="button" aria-label="Clique para entrar">
+    <div class="entry-card" style="
+      display:flex;flex-direction:column;align-items:center;gap:12px;
+      padding:28px 24px;border-radius:16px;text-align:center;
+      background: linear-gradient(135deg,#0b0f1a,#1c2030); border:1px solid #ffffff1a;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    ">
+      <div style="font-size:42px">💜</div>
+      <div style="font-weight:800;color:#e9e7ff">Clique para entrar</div>
+      <button class="btn entry-btn" style="min-height:40px">Entrar</button>
+    </div>
+  </div>
+
+  <style>
+    .entry-content{
+      position:fixed; inset:0; display:grid; place-items:center;
+      background: radial-gradient(1200px 600px at 50% -10%, #7c3aed33 0%, transparent 60%), rgba(5,6,12,.72);
+      z-index:10000;
+    }
+    body.gifts-on .entry-content{ display:none !important; }
+  </style>
+
+  <script src="assets/utils.js" defer></script>
+  <script src="assets/main.js" defer></script>
+  <script src="assets/gifts.js" defer></script>
+  <script src="assets/gifts-patch.js" defer></script>
+</body>
+</html>
+
+
+

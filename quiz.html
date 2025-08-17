@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Quiz 💜</title>
+  <link rel="stylesheet" href="assets/styles.min.css"/>
+</head>
+<body>
+  <div class="container quiz-wrap">
+    <div class="nav">
+      <div><a href="index.html">← Voltar</a></div>
+      <div class="links">
+        <span class="badge purple">Quiz Enigma</span>
+        <span class="badge">3 pulos</span>
+        <span class="badge">3 pausas</span>
+        <span class="badge">3 dicas</span>
+        <span class="badge">3 estouros</span>
+      </div>
+    </div>
+
+    <div class="card" id="quizCard">
+      <div class="quiz-header">
+        <div class="quiz-info">
+          <div class="quiz-title">
+            <div class="badge purple" id="slotBadge">Questão <span id="slotNum">1</span>/15</div>
+            <h1 id="qTitle">...</h1>
+          </div>
+          <div class="quiz-meta">
+            <span class="badge" id="diffBadge">...</span>
+            <span class="badge">⏱️ Tempo: <span class="timer" id="timer">00:00</span></span>
+            <span class="badge">💥 Estouros: <span id="timeoutsCount">0</span>/3</span>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn ghost" id="btnSkip">⏭️ Pular (3)</button>
+          <button class="btn ghost" id="btnPause">⏸️ Pausar (3)</button>
+          <button class="btn ghost" id="btn5050">🎯 50/50 (3)</button>
+          <button class="btn" id="btnHint">💡 Dica (3)</button>
+        </div>
+      </div>
+
+      <div id="options"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="finishModal">
+    <div class="dialog">
+      <h3>🎉 Quiz concluído!</h3>
+      <p>Parabéns! Você completou o quiz. Aqui está sua lista de números (um por linha):</p>
+      <textarea id="codeList" rows="8" readonly style="margin:16px 0;font-family:monospace;font-size:14px"></textarea>
+      <p class="small">💡 Dica: <strong>Nosso Primeiro Enigma</strong> - use estes números para desbloquear a página das cores!</p>
+      <div class="row" style="margin-top:16px;gap:12px">
+        <button class="btn" id="btnCopy">📋 Copiar</button>
+        <a class="btn ghost" href="cores.html">🎨 Ir para as Cores</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/utils.js"></script>
+  <script src="assets/config.js"></script>
+  <script src="assets/data.js"></script>
+  <script src="assets/quiz.js"></script>
+  <script src="assets/gifts.js"></script>
+  <script src="assets/main.js"></script>
+
+  <!-- Modal de presente -->
+  <div class="modal" id="giftModal">
+    <div class="dialog">
+      <h3 id="giftTitle">Presentinho</h3>
+      <p id="giftContent">Coloque seu print/áudio depois (pasta <code>assets/media</code>) e edite o texto aqui.</p>
+      <div id="giftMedia"></div>
+      <div class="row" style="margin-top:16px">
+        <button class="btn" onclick="closeGift()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
