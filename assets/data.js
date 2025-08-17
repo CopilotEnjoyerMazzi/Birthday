@@ -6,7 +6,7 @@ const QUESTIONS = [
 
   { id: 1,
     question: "Qual seu melhor pistol?",
-    options: ["classic","frenzy","ghost","sheriff"],
+    options: ["Classic","Frenzy","Ghost","Sheriff"],
     correct: 0,
     difficulty: "Médio",
     hint: "Custa 0 leleus",
@@ -38,7 +38,7 @@ const QUESTIONS = [
   },
   { id: 5,
     question: "Qual o jogo que eu mais odeio?",
-    options: ["stardew valley","valorant","lol","minecraft"],
+    options: ["Stardew Valley","Valorant","League of Legends","Minecraft"],
     correct: 0,
     difficulty: "Fácil",
     hint: "Você ama esse jogo (não faz sentido)",
