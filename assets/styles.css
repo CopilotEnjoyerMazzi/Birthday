@@ -1,0 +1,4827 @@
+:root {
+  --bg: #0f0f14;
+  --card: #171722;
+  --muted: #9aa2b1;
+  --text: #e8e8f2;
+  --accent: #7c3aed; /* roxinho */
+  --accent-2: #a78bfa;
+  --ok: #22c55e;
+  --warn: #f59e0b;
+  --err: #ef4444;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial, sans-serif;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  position: relative;
+}
+
+/* Efeito de partículas de fundo */
+.container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(167, 139, 250, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Melhorar scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Melhorar seleção de texto */
+::selection {
+  background: rgba(167, 139, 250, 0.3);
+  color: var(--text);
+}
+
+/* Melhorar focus */
+.btn:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(167, 139, 250, 0.5);
+  outline-offset: 2px;
+}
+
+/* Efeito de loading suave */
+.card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Melhorar badges com gradiente */
+.badge.purple {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(124, 58, 237, 0.1));
+  border: 1px solid rgba(167, 139, 250, 0.4);
+}
+
+/* Efeito especial para o título principal */
+h1:first-of-type {
+  background: linear-gradient(135deg, #e8e8f2, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.1); }
+}
+
+/* Melhorar cartas com espaçamento */
+.letter {
+  background: #12121b;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.letter:hover {
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Efeito especial para texto em inglês destacado */
+.letter span[style*="background: linear-gradient"] {
+  animation: gentleGlow 2s ease-in-out infinite alternate;
+  box-shadow: 0 4px 15px rgba(167, 139, 250, 0.2);
+  text-align: center;
+  display: block !important;
+  margin: 16px auto !important;
+  max-width: fit-content;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.letter span[style*="background: linear-gradient"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.2), transparent);
+  animation: englishShine 3s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+  0% { box-shadow: 0 4px 15px rgba(167, 139, 250, 0.2); }
+  100% { box-shadow: 0 6px 20px rgba(167, 139, 250, 0.4); }
+}
+
+@keyframes englishShine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Melhorar modais com backdrop blur */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal .dialog {
+  background: var(--card);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Melhorar botões com efeito de profundidade */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+/* Melhorar navegação */
+.nav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(15, 15, 20, 0.8);
+  border-radius: 12px;
+  margin: 16px;
+  padding: 16px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav .links a {
+  margin-right: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav .links a:hover {
+  background: rgba(167, 139, 250, 0.1);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* Remover efeito bugado dos links */
+.nav .links a::before {
+  display: none;
+}
+
+/* Corrigir alinhamento do "by Mazzi" */
+.nav .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav .brand .btn {
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav .brand .btn:hover {
+  background: rgba(167, 139, 250, 0.2);
+  border-color: rgba(167, 139, 250, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Efeito especial para o footer */
+.footer {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  animation: footerShine 4s ease-in-out infinite;
+}
+
+@keyframes footerShine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* Efeitos especiais avançados */
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  animation: cardRotate 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+@keyframes cardRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Efeito especial para badges */
+.badge {
+  position: relative;
+  overflow: hidden;
+}
+
+.badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.badge:hover::before {
+  left: 100%;
+}
+
+/* Efeito especial para opções do quiz */
+.option {
+  position: relative;
+  overflow: hidden;
+}
+
+.option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.option:hover::before {
+  left: 100%;
+}
+
+/* Efeito especial para o timer */
+.timer {
+  animation: timerPulse 2s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+  0%, 100% { text-shadow: 0 0 5px rgba(167, 139, 250, 0.3); }
+  50% { text-shadow: 0 0 15px rgba(167, 139, 250, 0.6); }
+}
+
+/* Efeito especial para cores */
+.color-bubble {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.color-bubble:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.color-bubble::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  transform: scale(0);
+  transition: transform 0.3s ease;
+}
+
+.color-bubble:hover::before {
+  transform: scale(1);
+}
+
+.color-bubble::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.color-bubble:hover::after {
+  left: 100%;
+}
+
+/* Efeito especial para inputs */
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+  border-color: rgba(167, 139, 250, 0.6);
+}
+
+/* Efeito especial para scroll */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+}
+
+/* Efeito especial para seleção */
+::selection {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.3), rgba(124, 58, 237, 0.3));
+  color: var(--text);
+}
+
+/* Efeito especial para links */
+a {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+a::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  transition: width 0.3s ease;
+}
+
+a:hover::before {
+  width: 100%;
+}
+
+/* Efeito especial para o título principal */
+h1:first-of-type {
+  position: relative;
+  overflow: hidden;
+}
+
+h1:first-of-type::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+  animation: titleUnderline 3s ease-in-out infinite;
+}
+
+@keyframes titleUnderline {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Efeito de loading da página */
+body {
+  animation: pageLoad 1s ease-out;
+}
+
+@keyframes pageLoad {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efeito especial para cards com delay */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Efeito especial para botões */
+.btn {
+  animation: buttonAppear 0.6s ease-out;
+}
+
+@keyframes buttonAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Efeito especial para badges */
+.badge {
+  animation: badgeAppear 0.8s ease-out;
+}
+
+@keyframes badgeAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Animação das partículas dos presentes */
+@keyframes particleFloat {
+  0%, 100% { 
+    transform: translateY(0px) scale(1);
+    opacity: 0.7;
+  }
+  50% { 
+    transform: translateY(-15px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Efeito especial para os presentes com partículas */
+.random-gift {
+  animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 1001;
+}
+
+.random-gift::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.2) 0%, transparent 70%);
+  border-radius: 16px;
+  animation: giftGlow 2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes giftGlow {
+  0% { 
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  100% { 
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* Efeitos especiais avançados para modais */
+.modal .dialog {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal .dialog::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(167, 139, 250, 0.05), transparent);
+  animation: modalRotate 10s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show .dialog::before {
+  opacity: 1;
+}
+
+@keyframes modalRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Efeito especial para títulos dos modais */
+.modal .dialog h3 {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal .dialog h3::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+  animation: titleShine 2s ease-in-out infinite;
+}
+
+@keyframes titleShine {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Efeito especial para o conteúdo dos modais */
+.modal .dialog p {
+  position: relative;
+  padding: 8px 0;
+}
+
+.modal .dialog p::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  transition: height 0.3s ease;
+}
+
+.modal.show .dialog p::before {
+  height: 80%;
+  transform: translateY(-50%);
+}
+
+/* Efeito especial para botões dos modais */
+.modal .dialog .btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal .dialog .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.modal .dialog .btn:hover::before {
+  left: 100%;
+}
+
+/* Efeito especial para imagens dos presentes */
+#giftMedia img {
+  position: relative;
+  overflow: hidden;
+}
+
+#giftMedia img::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  transition: left 0.8s ease;
+}
+
+#giftMedia img:hover::before {
+  left: 100%;
+}
+
+/* Efeito especial para áudio dos presentes */
+#giftMedia audio {
+  position: relative;
+  overflow: hidden;
+}
+
+#giftMedia audio::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(124, 58, 237, 0.1));
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* Efeitos especiais para o fundo */
+.container::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(167, 139, 250, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -2;
+  animation: backgroundFloat 25s ease-in-out infinite;
+}
+
+@keyframes backgroundFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(1deg); }
+  50% { transform: translateY(-5px) rotate(-1deg); }
+  75% { transform: translateY(-20px) rotate(0.5deg); }
+}
+
+/* Efeito especial para cards com gradiente animado */
+.card {
+  background: 
+    linear-gradient(180deg, rgba(124, 58, 237, 0.12), rgba(124, 58, 237, 0) 120%),
+    var(--card);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.05), transparent);
+  transition: left 0.8s ease;
+}
+
+.card:hover::after {
+  left: 100%;
+}
+
+/* Efeito especial para navegação */
+.nav {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  animation: navShine 6s ease-in-out infinite;
+}
+
+@keyframes navShine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Efeito especial para links da navegação */
+.nav .links a {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav .links a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.nav .links a:hover::before {
+  left: 100%;
+}
+
+/* Efeito especial para o footer */
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.05), rgba(124, 58, 237, 0.05));
+  pointer-events: none;
+}
+
+/* Efeito especial para opções do quiz */
+.option {
+  position: relative;
+  overflow: hidden;
+}
+
+.option::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.option:hover::after {
+  left: 100%;
+}
+
+/* Efeito especial para botões de ajuda */
+.toolbar .btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.toolbar .btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.toolbar .btn:hover::after {
+  left: 100%;
+}
+
+/* Efeito especial para o timer */
+.timer {
+  position: relative;
+  overflow: hidden;
+}
+
+.timer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.3), transparent);
+  animation: timerShine 3s ease-in-out infinite;
+}
+
+@keyframes timerShine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Efeito especial para cores */
+.color-bubble {
+  position: relative;
+  overflow: hidden;
+}
+
+.color-bubble::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.color-bubble:hover::after {
+  left: 100%;
+}
+
+/* Efeito especial para inputs */
+input, textarea {
+  position: relative;
+  overflow: hidden;
+}
+
+input::before, textarea::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+input:focus::before, textarea:focus::before {
+  left: 100%;
+}
+
+/* Efeito especial para badges */
+.badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.4s ease;
+}
+
+.badge:hover::after {
+  left: 100%;
+}
+
+/* Efeito especial para o título principal */
+h1:first-of-type::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.1), transparent);
+  animation: titleShine 4s ease-in-out infinite;
+}
+
+/* Efeito especial para cartas */
+.letter {
+  position: relative;
+  overflow: hidden;
+}
+
+.letter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.05), transparent);
+  transition: left 0.8s ease;
+}
+
+.letter:hover::before {
+  left: 100%;
+}
+
+/* Efeito especial para o texto em inglês */
+.letter span[style*="background: linear-gradient"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.2), transparent);
+  animation: englishShine 3s ease-in-out infinite;
+}
+
+@keyframes englishShine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Melhorar modais */
+.modal .dialog h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #dcd4ff;
+}
+
+.modal .dialog p {
+  margin-bottom: 16px;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .quiz-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .toolbar {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .toolbar .btn {
+    flex: 1;
+    min-width: auto;
+  }
+  
+  .quiz-meta {
+    justify-content: center;
+  }
+}
+
+/* Restaurar estilos essenciais */
+.nav {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(15, 15, 20, 0.8);
+  border-radius: 12px;
+  margin: 16px;
+  padding: 16px 24px;
+}
+
+.nav .links a {
+  margin-right: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.nav .links a:hover {
+  background: rgba(167, 139, 250, 0.1);
+  text-decoration: none;
+}
+
+.card {
+  background: linear-gradient(
+      180deg,
+      rgba(124, 58, 237, 0.12),
+      rgba(124, 58, 237, 0) 120%
+    ),
+    var(--card);
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
+/* Efeito especial para o card principal */
+.card:first-of-type {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.btn {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0px);
+}
+
+/* Efeito especial para o botão principal */
+.btn:first-of-type {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.btn.secondary {
+  background: #4c1d95; /* Roxo mais escuro */
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: #5b21b6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 29, 149, 0.3);
+}
+
+.btn.ghost {
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  color: var(--text);
+}
+
+.btn.ghost:hover {
+  background: rgba(167, 139, 250, 0.2);
+  border-color: rgba(167, 139, 250, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.2);
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  font-size: 12px;
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+
+.badge:hover {
+  transform: scale(1.05);
+}
+
+.badge.purple {
+  color: #d9d6ff;
+  border-color: #b6a8ff;
+  background: rgba(167, 139, 250, 0.1);
+}
+
+.badge.ok {
+  color: #d1fadf;
+  border-color: #34d399;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.badge.warn {
+  color: #fff6d6;
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.badge.err {
+  color: #ffe0e0;
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 10px 0 16px 0;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 8px 0 12px 0;
+  color: #dcd4ff;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid rgba(167, 139, 250, 0.15);
+  margin: 20px 0;
+}
+
+input,
+textarea {
+  background: #0f0f17;
+  color: var(--text);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 12px;
+  padding: 10px;
+  width: 100%;
+}
+
+label {
+  font-size: 13px;
+  color: #c9c8dd;
+}
+
+.small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.footer {
+  margin-top: 60px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(167, 139, 250, 0.1);
+  animation: float 4s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.center {
+  text-align: center;
+}
+
+/* Classe para esconder elementos */
+.hidden {
+  display: none !important;
+}
+
+/* Classe para input + botão lado a lado */
+.lock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Quiz specific */
+.quiz-wrap {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.quiz-info {
+  flex: 1;
+}
+
+.quiz-title {
+  margin-bottom: 16px;
+}
+
+.quiz-title h1 {
+  margin: 12px 0 16px 0;
+  line-height: 1.4;
+  font-size: 24px;
+  color: var(--text);
+}
+
+.quiz-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.toolbar .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  padding: 8px 12px;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.counter {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #131324;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  font-size: 12px;
+}
+
+/* Badges de dificuldade com cores específicas */
+.badge.easy {
+  color: #d1fadf;
+  border-color: #34d399;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.badge.medium {
+  color: #fff6d6;
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.badge.hard {
+  color: #ffe0e0;
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.option {
+  display: block;
+  background: #2c2f4a;
+  color: #fff;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.option:hover {
+  background-color: #3f4270;
+  border-color: #8b5cf6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.option.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.option.correct {
+  border-color: #34d399;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.option.incorrect {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* Melhorar espaçamento das opções */
+#options {
+  margin-top: 24px;
+}
+
+/* Melhorar aparência dos botões de ajuda */
+.toolbar .btn.ghost:hover {
+  background: rgba(167, 139, 250, 0.1);
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+.toolbar .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+/* Efeito especial para o modal dos presentes */
+#giftModal .dialog {
+  background: linear-gradient(135deg, 
+    rgba(167, 139, 250, 0.1), 
+    rgba(124, 58, 237, 0.05), 
+    rgba(167, 139, 250, 0.1)
+  );
+  border: 2px solid rgba(167, 139, 250, 0.3);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(167, 139, 250, 0.2);
+}
+
+/* Modal de finalização do quiz */
+#finishModal .dialog {
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.1), 
+    rgba(22, 163, 74, 0.05), 
+    rgba(34, 197, 94, 0.1)
+  );
+  border: 2px solid rgba(34, 197, 94, 0.3);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(34, 197, 94, 0.2);
+}
+
+#finishModal .dialog h3 {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#finishModal .dialog p {
+  text-align: center;
+  font-size: 16px;
+  color: #dcd4ff;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+#finishModal .btn {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#finishModal .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+}
+
+/* Modal de cores */
+#colorModal .dialog {
+  background: linear-gradient(135deg, 
+    rgba(167, 139, 250, 0.1), 
+    rgba(124, 58, 237, 0.05), 
+    rgba(167, 139, 250, 0.1)
+  );
+  border: 2px solid rgba(167, 139, 250, 0.3);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(167, 139, 250, 0.2);
+}
+
+#colorModal .dialog h3 {
+  background: linear-gradient(135deg, #e8e8f2, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#colorModal .dialog p {
+  text-align: center;
+  font-size: 16px;
+  color: #dcd4ff;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+#giftModal .dialog h3 {
+  background: linear-gradient(135deg, #e8e8f2, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#giftModal .dialog p {
+  text-align: center;
+  font-size: 16px;
+  color: #dcd4ff;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+#giftMedia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+/* Efeito especial para o botão fechar do modal */
+#giftModal .btn {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#giftModal .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+#giftModal .btn:hover::before {
+  left: 100%;
+}
+
+#giftModal .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+}
+
+/* Animações para o player de áudio personalizado */
+@keyframes audioShine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+@keyframes musicFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Controlador de música de fundo */
+#musicController {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(124, 58, 237, 0.05));
+  border: 2px solid rgba(167, 139, 250, 0.3);
+  border-radius: 16px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+#musicController:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 200px;
+}
+
+.music-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  flex-shrink: 0;
+}
+
+.music-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.music-btn.playing {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.music-btn.stop-btn {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.music-btn.stop-btn:hover {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.music-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.music-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #dcd4ff;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-progress {
+  height: 4px;
+  background: rgba(167, 139, 250, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.music-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* Player de áudio personalizado */
+.custom-audio-player {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(124, 58, 237, 0.05));
+  border: 2px solid rgba(167, 139, 250, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin: 16px auto;
+  display: block;
+  max-width: 400px;
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.audio-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  flex-shrink: 0;
+}
+
+.audio-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.audio-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.audio-progress {
+  height: 6px;
+  background: rgba(167, 139, 250, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.audio-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+.audio-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #a39fc9;
+}
+
+.audio-volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.volume-icon {
+  font-size: 14px;
+  color: #a39fc9;
+  min-width: 16px;
+}
+
+.volume-slider {
+  width: 80px;
+  height: 4px;
+  background: rgba(167, 139, 250, 0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Responsividade para o controlador de música */
+@media (max-width: 768px) {
+  #musicController {
+    bottom: 10px;
+    right: 10px;
+    padding: 12px;
+  }
+  
+  .music-controls {
+    min-width: 180px;
+    gap: 8px;
+  }
+  
+  .music-title {
+    font-size: 11px;
+  }
+  
+  .audio-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .audio-volume {
+    justify-content: center;
+  }
+}
+
+/* Estilizar o slider de volume */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-track {
+  background: rgba(167, 139, 250, 0.2);
+  height: 4px;
+  border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+input[type="range"]::-moz-range-track {
+  background: rgba(167, 139, 250, 0.2);
+  height: 4px;
+  border-radius: 2px;
+  border: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+/* Cartas tipo envelope - Design realista e interativo */
+.envelope-letter {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  margin: 20px auto;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.envelope-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6, #a78bfa);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 30px;
+  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom center;
+  z-index: 2;
+}
+
+.envelope-front:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(139, 92, 246, 0.4);
+}
+
+.envelope-seal {
+  margin-bottom: 25px;
+}
+
+.seal-icon {
+  font-size: 56px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  animation: sealFloat 5s ease-in-out infinite;
+}
+
+@keyframes sealFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.envelope-text h3 {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.envelope-hint {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-style: italic;
+  margin: 0;
+  opacity: 0.95;
+}
+
+.envelope-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e1b4b, #312e81, #4338ca);
+  border-radius: 20px;
+  border: 2px solid rgba(167, 139, 250, 0.4);
+  transform: rotateX(180deg);
+  backface-visibility: hidden;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.envelope-letter.opened .envelope-front {
+  transform: rotateX(-180deg);
+}
+
+.envelope-letter.opened .envelope-back {
+  transform: rotateX(0deg);
+}
+
+.letter-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.letter-paper {
+  background: linear-gradient(135deg, #f0efff, #e9e5ff, #ddd6fe);
+  border-radius: 16px;
+  padding: 25px 30px;
+  flex: 1;
+  overflow-y: auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  position: relative;
+}
+
+.letter-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #7c3aed, #8b5cf6, #a78bfa);
+  border-radius: 16px 16px 0 0;
+  z-index: 1;
+}
+
+.letter-text {
+  color: #2d1b69;
+  line-height: 1.7;
+  font-size: 15px;
+  font-family: 'Georgia', serif;
+  position: relative;
+  z-index: 2;
+  white-space: pre-wrap;
+  margin-top: 5px;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.letter-actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.close-letter-btn {
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.close-letter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+  background: linear-gradient(135deg, #6d28d9, #7c3aed);
+}
+
+/* Destaque da frase final */
+.letter-text .highlighted-phrase {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(139, 92, 246, 0.25));
+  border: 2px solid rgba(124, 58, 237, 0.6);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 15px;
+  display: block;
+  margin: 20px auto;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: finalPhraseGlow 3s ease-in-out infinite alternate;
+  max-width: 90%;
+}
+
+@keyframes finalPhraseGlow {
+  0% { 
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+    transform: scale(1);
+  }
+  100% { 
+    box-shadow: 0 12px 35px rgba(124, 58, 237, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+.letter-text .heart-emoji {
+  display: inline-block;
+  animation: heartBeat 2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(139, 92, 246, 0.3));
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .envelope-letter {
+    height: auto;
+    max-height: 350px;
+  }
+  
+  .envelope-front {
+    padding: 30px 20px;
+  }
+  
+  .seal-icon {
+    font-size: 40px;
+  }
+  
+  .envelope-text h3 {
+    font-size: 24px;
+  }
+  
+  .envelope-hint {
+    font-size: 14px;
+  }
+  
+  .letter-content {
+    padding: 20px;
+  }
+  
+  .letter-paper {
+    padding: 20px;
+  }
+  
+  .letter-text {
+    font-size: 14px;
+  }
+  
+  .close-letter-btn {
+    font-size: 12px;
+    padding: 8px 15px;
+  }
+  
+  .letter-text .highlighted-phrase {
+    font-size: 16px;
+    padding: 10px 15px;
+    margin: 15px auto;
+  }
+}
+
+/* Cartas simples - Design limpo e funcional */
+.simple-letter {
+  background: linear-gradient(135deg, #1e1b4b, #312e81, #4338ca);
+  border: 2px solid rgba(167, 139, 250, 0.4);
+  border-radius: 20px;
+  padding: 40px 30px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.simple-letter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.simple-letter * {
+  pointer-events: auto;
+}
+
+.letter-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.letter-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.envelope-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  z-index: 10;
+  flex: 1;
+}
+
+.envelope-btn {
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+  border: none;
+  color: white;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 36px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  animation: envelopeFloat 3s ease-in-out infinite;
+}
+
+@keyframes envelopeFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.envelope-btn:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 12px 35px rgba(124, 58, 237, 0.6);
+  background: linear-gradient(135deg, #6d28d9, #7c3aed);
+}
+
+.envelope-btn:active {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.envelope-hint {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  font-style: italic;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal de zoom das cartas */
+.letter-zoom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 15, 20, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.letter-zoom-modal.show {
+  opacity: 1;
+}
+
+.zoom-content {
+  background: linear-gradient(135deg, #1e1b4b, #312e81, #4338ca);
+  border-radius: 20px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(167, 139, 250, 0.4);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.letter-zoom-modal.show .zoom-content {
+  transform: scale(1);
+}
+
+.zoom-header {
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 18px 18px 0 0;
+}
+
+.zoom-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.close-zoom-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-zoom-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.zoom-body {
+  padding: 30px;
+  max-height: calc(90vh - 100px);
+  overflow-y: auto;
+}
+
+.letter-full-text {
+  color: #e2e8f0;
+  line-height: 1.8;
+  font-size: 16px;
+  font-family: 'Georgia', serif;
+  white-space: pre-wrap;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Forçar remoção de parágrafos indesejados */
+.letter-full-text p {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline !important;
+}
+
+.letter-full-text br {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.letter-full-text div {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Remover espaços indesejados no início */
+.letter-full-text {
+  text-indent: 0 !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.letter-full-text::before {
+  content: none !important;
+}
+
+/* CSS para o player de áudio personalizado */
+.custom-audio-player {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(124, 58, 237, 0.05));
+  border: 2px solid rgba(167, 139, 250, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin: 16px auto;
+  display: block;
+  max-width: 400px;
+  transition: all 0.3s ease;
+}
+
+.custom-audio-player:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.audio-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  flex-shrink: 0;
+}
+
+.audio-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.audio-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.audio-progress {
+  height: 6px;
+  background: rgba(167, 139, 250, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.audio-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+.audio-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #a39fc9;
+}
+
+.audio-volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.volume-icon {
+  font-size: 14px;
+  color: #a39fc9;
+  min-width: 16px;
+}
+
+.volume-slider {
+  width: 80px;
+  height: 4px;
+  background: rgba(167, 139, 250, 0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Responsividade para o controlador de música */
+@media (max-width: 768px) {
+  #musicController {
+    bottom: 10px;
+    right: 10px;
+    padding: 12px;
+  }
+  
+  .music-controls {
+    min-width: 180px;
+    gap: 8px;
+  }
+  
+  .music-title {
+    font-size: 11px;
+  }
+  
+  .audio-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .audio-volume {
+    justify-content: center;
+  }
+}
+
+/* Estilizar o slider de volume */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-track {
+  background: rgba(167, 139, 250, 0.2);
+  height: 4px;
+  border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+input[type="range"]::-moz-range-track {
+  background: rgba(167, 139, 250, 0.2);
+  height: 4px;
+  border-radius: 2px;
+  border: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+/* Controlador discreto de música para cartas */
+#discreteMusicController {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 1000;
+  background: rgba(15, 15, 20, 0.6);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 10px;
+  padding: 6px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+#discreteMusicController:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border-color: rgba(167, 139, 250, 0.4);
+  background: rgba(15, 15, 20, 0.8);
+}
+
+.discrete-music-controls {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.discrete-music-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: none;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.2);
+  flex-shrink: 0;
+}
+
+.discrete-music-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.3);
+}
+
+.discrete-music-btn.playing {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.discrete-music-btn.stop-btn {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+}
+
+.discrete-music-btn.stop-btn:hover {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
+}
+
+/* Responsividade para o controlador discreto */
+@media (max-width: 768px) {
+  #discreteMusicController {
+    bottom: 10px;
+    right: 10px;
+    padding: 4px;
+  }
+  
+  .discrete-music-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+}
+
+/* --- Substituição: restaurar layout legível dos parágrafos dentro das cartas --- */
+/* regras aplicadas com maior especificidade para sobrescrever os !important anteriores */
+.letter-zoom-modal .zoom-body .letter-full-text,
+.letter-full-text {
+  white-space: normal !important;
+  text-indent: 8px !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  font-size: 16px !important;
+  line-height: 1.85 !important;
+}
+
+/* Parágrafos como blocos com espaçamento confortável */
+.letter-zoom-modal .zoom-body .letter-full-text p,
+.letter-full-text p {
+  display: block !important;
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+  line-height: 1.85 !important;
+  font-size: 16px !important;
+  color: inherit !important;
+  text-align: left !important;
+}
+
+/* Primeiro parágrafo com leve itálico (se desejado) */
+.letter-zoom-modal .zoom-body .letter-full-text p:first-of-type,
+.letter-full-text p:first-of-type {
+  margin-top: 6px !important;
+  font-style: italic !important;
+  color: rgba(255, 240, 255, 0.92) !important;
+}
+
+/* Quebras de linha simples tornam-se espaçamento vertical (melhora blocos curtos) */
+.letter-zoom-modal .zoom-body .letter-full-text br,
+.letter-full-text br {
+  display: block !important;
+  height: 8px;
+  content: "" !important;
+}
+
+/* Garantir que elementos <div> internos (ex.: big-love-block) fiquem em bloco */
+.letter-zoom-modal .zoom-body .letter-full-text div,
+.letter-full-text > div {
+  display: block !important;
+  margin: 0 0 18px 0 !important;
+  padding-left: 6px !important;
+}
+
+/* Forçar o bloco do "EU TE AMO!" em linha separada, centralizado e destacado */
+.letter-zoom-modal .zoom-body .letter-full-text .big-love-block,
+.letter-full-text .big-love-block {
+  display: block !important;
+  text-align: center !important;
+  margin: 20px 0 !important;
+  padding: 0 !important;
+}
+.letter-zoom-modal .zoom-body .letter-full-text .big-love,
+.letter-full-text .big-love {
+  display: inline-block !important;
+  font-size: 1.4rem !important;
+  padding: 10px 18px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+/* Frases em inglês destacadas — sempre em bloco separado e centrado */
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english,
+.letter-full-text p.final-english {
+  display: block !important;
+  margin: 22px auto 0 !important;
+  padding: 14px 22px !important;
+  max-width: 760px !important;
+  text-align: center !important;
+  font-weight: 800 !important;
+  font-size: 15.5px !important;
+  border-radius: 14px !important;
+  color: inherit !important;
+}
+
+/* pequenas garantias responsivas */
+@media (max-width:720px) {
+  .letter-zoom-modal .zoom-body .letter-full-text p,
+  .letter-full-text p { font-size: 15px !important; margin-bottom: 14px !important; }
+  .letter-full-text .big-love { font-size: 1.15rem !important; padding: 8px 14px !important; }
+  .letter-full-text p.final-english { font-size: 14px !important; padding: 10px 12px !important; }
+}
+
+/* --- Override específico para cartas: alinhar parágrafos e remover ::after indesejados --- */
+/* Usa especificidade/!important apenas onde necessário para sobrescrever regras anteriores */
+
+.letter-full-text,
+.zoom-body .letter-full-text {
+  white-space: normal !important;
+  text-indent: 8px;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+/* Restaurar parágrafos como blocos legíveis (sobrescreve regras que forçavam inline) */
+.zoom-body .letter-full-text p,
+.letter-full-text p {
+  display: block !important;
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+  line-height: 1.85 !important;
+  font-size: 16px !important;
+  text-align: left !important;
+  color: inherit !important;
+}
+
+/* Quebras de linha tratadas como espaçamento vertical */
+.zoom-body .letter-full-text br,
+.letter-full-text br {
+  display: block !important;
+  height: 8px !important;
+  content: "" !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Garantir que divs internas (ex.: big-love-block) fiquem em bloco e com espaçamento */
+.zoom-body .letter-full-text > div,
+.letter-full-text > div {
+  display: block !important;
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+}
+
+/* Bloco "EU TE AMO!" sempre em linha separada e centralizado */
+.letter-full-text .big-love-block,
+.zoom-body .letter-full-text .big-love-block {
+  display: block !important;
+  text-align: center !important;
+  margin: 22px 0 !important;
+  padding: 0 !important;
+}
+
+.letter-full-text .big-love,
+.zoom-body .letter-full-text .big-love {
+  display: inline-block !important;
+  font-size: 1.35rem !important;
+  padding: 10px 18px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Frases em inglês: bloco separado, centralizado e sem efeitos extras */
+.letter-full-text p.final-english,
+.zoom-body .letter-full-text p.final-english {
+  display: block !important;
+  margin: 22px auto 0 !important;
+  padding: 12px 18px !important;
+  max-width: 760px !important;
+  text-align: center !important;
+  font-weight: 800 !important;
+  font-size: 15.5px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Remover os pseudo-elementos que você pediu (bolinha/efeito) */
+.letter-full-text p.final-english::after,
+.zoom-body .letter-full-text p.final-english::after,
+.final-english::after,
+.letter-full-text .big-love::after,
+.zoom-body .letter-full-text .big-love::after,
+.big-love::after {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Pequenas garantias responsivas */
+@media (max-width: 720px) {
+  .letter-full-text { font-size: 15px !important; text-indent: 6px; }
+  .letter-full-text p { margin-bottom: 14px !important; }
+  .letter-full-text .big-love { font-size: 1.15rem !important; padding: 8px 14px !important; }
+  .letter-full-text p.final-english { font-size: 14px !important; padding: 10px 12px !important; max-width: 92% !important; }
+}
+
+/* Hotfix: pseudo-elementos decorativos não devem capturar cliques */
+a::before,
+a::after,
+.btn::before,
+.btn::after,
+.card::before,
+.card::after,
+.badge::before,
+.badge::after,
+.option::before,
+.option::after,
+.nav::before,
+.nav .links a::before,
+.footer::before,
+.footer::after,
+.container::before,
+.container::after,
+#giftMedia img::before,
+#giftMedia audio::before {
+  pointer-events: none !important;
+}
+
+/* Hotfix: garantir modal acima de tudo */
+.modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Se o modal tiver backdrop pseudo-element, evita bloquear cliques no conteúdo */
+.modal::before,
+.modal::after {
+  pointer-events: none !important;
+}
+
+/* Reduzir animações para quem prefere menos movimento (melhora performance no mobile) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Evitar duplicidade de ::selection (mantém a última) */
+::selection {
+  background: rgba(120, 86, 255, 0.35);
+  color: #fff;
+}
+
+/* === Love Letter v2 (tema roxo, tipografia legível, glass/gradient) === */
+.love-letter {
+  --ll-surface: rgba(28, 24, 48, 0.9);
+  --ll-border: rgba(167, 139, 250, 0.35);
+  --ll-grad: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 45%, #a78bfa 100%);
+  --ll-text: #efeaff;
+  --ll-muted: #c7bff2;
+}
+
+.letter-zoom-modal .zoom-body.love-letter {
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.08), rgba(124, 58, 237, 0) 60%), var(--ll-surface);
+  border: 1.5px solid var(--ll-border);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.letter-zoom-modal .zoom-body.love-letter::before {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 100%;
+  border-radius: 6px;
+  margin: -8px 0 18px;
+  background: var(--ll-grad);
+  opacity: 0.55;
+}
+
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text {
+  color: var(--ll-text);
+  font-family: 'Georgia', serif;
+  line-height: 1.9;
+  font-size: 16.5px;
+}
+
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text p {
+  margin: 0 0 16px;
+  color: var(--ll-text);
+}
+
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text p:first-of-type {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text .strike {
+  position: relative;
+  color: var(--ll-muted);
+  text-decoration: none;
+}
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text .strike::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 55%;
+  height: 2px;
+  background: var(--ll-grad);
+  transform: rotate(-2deg);
+  box-shadow: 0 0 8px rgba(167, 139, 250, 0.5);
+}
+
+.letter-zoom-modal .zoom-body.love-letter .big-love-block {
+  margin: 22px 0;
+  text-align: center;
+  color: var(--ll-text);
+}
+.letter-zoom-modal .zoom-body.love-letter .big-love {
+  display: inline-block;
+  background: var(--ll-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.letter-zoom-modal .zoom-body.love-letter .final-english {
+  margin: 26px auto 0;
+  padding: 14px 20px;
+  border-radius: 14px;
+  border: 1.5px solid var(--ll-border);
+  background: linear-gradient(180deg, rgba(167, 139, 250, 0.12), rgba(124, 58, 237, 0.08));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  font-weight: 800;
+  text-align: center;
+  color: var(--ll-text);
+}
+.letter-zoom-modal .zoom-body.love-letter .highlighted-phrase {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  display: inline;
+}
+.letter-zoom-modal .zoom-body.love-letter .heart-emoji {
+  filter: drop-shadow(0 2px 6px rgba(167, 139, 250, 0.5));
+}
+
+/* Harmonizar o tema roxo nas duas cartinhas existentes */
+.envelope-front {
+  background: linear-gradient(135deg, #2a1e5e, #3a2a7a 45%, #4c2fbf) !important;
+  box-shadow: 0 18px 40px rgba(124, 58, 237, 0.35);
+}
+.envelope-back {
+  background: linear-gradient(135deg, #171434, #242055 45%, #3a2a7a) !important;
+  border-color: rgba(167, 139, 250, 0.45) !important;
+}
+.envelope-text h3,
+.envelope-hint {
+  color: #f3ecff !important;
+  text-shadow: 0 2px 14px rgba(124, 58, 237, 0.35);
+}
+
+.simple-letter {
+  background: linear-gradient(135deg, rgba(28, 24, 48, 0.95), rgba(38, 32, 70, 0.95));
+  border: 1.5px solid rgba(167, 139, 250, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+.simple-letter .letter-header h3 { color: #efeaff; }
+.simple-letter:hover,
+.envelope-front:hover {
+  border-color: rgba(167, 139, 250, 0.55);
+  box-shadow: 0 24px 60px rgba(124, 58, 237, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Animação sutil (respeita prefers-reduced-motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .letter-zoom-modal .zoom-body.love-letter { animation: llFade 0.4s ease-out; }
+  @keyframes llFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+}
+
+/* Canon: Cartas – evitar conflitos e unificar visual */
+.letter-zoom-modal { z-index: 10000; }
+.letter-zoom-modal .zoom-body { margin-top: 8px; }
+.letter-zoom-modal .zoom-body .letter-full-text p { display: block; }
+
+/* Big Love — destaque roxo elegante */
+.letter-full-text .big-love {
+  display: inline-block;
+  position: relative;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font: 900 clamp(1.2rem, 2vw + .6rem, 1.8rem)/1 "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #c4b5fd, #7c3aed 50%, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 24px rgba(167,139,250,.45);
+}
+.letter-full-text .big-love::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(124,58,237,.22), rgba(124,58,237,0) 60%);
+  filter: blur(10px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: .9;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .letter-full-text .big-love { animation: blGlow 3s ease-in-out infinite alternate; }
+  @keyframes blGlow {
+    from { text-shadow: 0 2px 16px rgba(167,139,250,.35); }
+    to   { text-shadow: 0 4px 26px rgba(167,139,250,.6); }
+  }
+}
+
+/* Frase final — pill glass com legibilidade */
+.letter-full-text p.final-english {
+  display: block;
+  margin: 26px auto 0;
+  padding: 14px 20px;
+  max-width: 760px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(124,58,237,0.14), rgba(167,139,250,0.1));
+  border: 1px solid rgba(167,139,250,0.35);
+  color: #efeaff;
+  box-shadow: 0 10px 32px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.03);
+  font-weight: 800;
+  letter-spacing: .2px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.letter-full-text p.final-english .highlighted-phrase,
+.letter-full-text p.final-english .strong-highlight {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+  color: inherit;
+  display: inline;
+  font-weight: 800;
+}
+.letter-full-text p.final-english .heart-emoji {
+  filter: drop-shadow(0 2px 6px rgba(167,139,250,.6));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .letter-full-text p.final-english::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -30%;
+    width: 30%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+    filter: blur(6px);
+    animation: feShine 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes feShine {
+    0% { left: -30%; opacity: .3; }
+    50% { left: 100%; opacity: .6; }
+    100% { left: 100%; opacity: 0; }
+  }
+}
+
+/* Guardas anti-conflito (escopo apenas das cartas) */
+.letter-full-text .strike { text-decoration: none; opacity: .9; }
+.letter-full-text .strike::after {
+  content: "";
+  display: inline-block;
+  height: 2px; width: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  vertical-align: middle; transform: translateY(-3px);
+}
+.letter-full-text > .big-love-block { text-align: center; margin: 22px 0; }
+.letter-full-text p { margin: 0 0 16px; line-height: 1.9; }
+
+/* Responsivo fino */
+@media (max-width: 720px) {
+  .letter-full-text .big-love { font-size: 1.2rem; padding: 10px 16px; }
+  .letter-full-text p.final-english { font-size: 14px; padding: 10px 12px; max-width: 92%; }
+}
+
+.letter-zoom-modal .zoom-body .letter-full-text .big-love,
+.letter-full-text .big-love {
+  display: inline-block !important;
+  position: relative !important;
+  padding: 10px 20px !important;
+  border-radius: 999px !important;
+  font: 900 clamp(1.35rem, 2vw + .6rem, 1.9rem)/1 "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: .07em !important;
+  text-transform: uppercase !important;
+
+  /* texto nítido (sem blur) */
+  background: linear-gradient(90deg, #f5f3ff 0%, #c4b5fd 20%, #7c3aed 55%, #a78bfa 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 0.6px rgba(255,255,255,0.05) !important; /* leve contorno para nitidez */
+  text-shadow: none !important;
+  filter: none !important;
+  animation: none !important; /* desliga brilhos antigos */
+}
+
+/* remove halo antigo com blur */
+.letter-zoom-modal .zoom-body .letter-full-text .big-love::before,
+.letter-full-text .big-love::before {
+  content: none !important;
+}
+
+/* sublinhado gradiente com glow discreto (sem borrar o texto) */
+.letter-zoom-modal .zoom-body .letter-full-text .big-love::after,
+.letter-full-text .big-love::after {
+  content: "" !important;
+  display: block !important;
+  height: 4px !important;
+  width: 88% !important;
+  margin: 10px auto 0 !important;
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, #c4b5fd, #7c3aed, #a78bfa) !important;
+  box-shadow: 0 0 0 1px rgba(167,139,250,.25), 0 8px 20px rgba(124,58,237,.35) !important;
+  pointer-events: none !important;
+}
+
+/* Frase em inglês — pill glass com “aurora border” elegante */
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english,
+.letter-full-text p.final-english {
+  position: relative !important;
+  isolation: isolate !important;
+  margin: 26px auto 0 !important;
+  padding: 16px 22px !important;
+  max-width: 760px !important;
+  border-radius: 16px !important;
+
+  /* vidro limpo */
+  background: rgba(34, 25, 64, 0.55) !important;
+  border: 1px solid rgba(167,139,250,0.45) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+
+  /* sombra contida (sem poluição) */
+  box-shadow: 0 12px 40px rgba(124,58,237,0.25), inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+  color: #efeaff !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+  letter-spacing: .2px !important;
+  overflow: hidden !important;
+}
+
+/* Borda aurora animada (apenas borda, não preenche) */
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english::before,
+.letter-full-text p.final-english::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -2px !important;
+  border-radius: 18px !important;
+  background: conic-gradient(
+    from 0deg,
+    #7c3aed,
+    #a78bfa,
+    #7c3aed,
+    #8b5cf6,
+    #7c3aed
+  ) !important;
+
+  /* máscara para mostrar só a “faixa” da borda */
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0) !important;
+  mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+
+  padding: 2px !important;
+  animation: auroraSpin 12s linear infinite !important;
+  pointer-events: none !important;
+  opacity: .9 !important;
+}
+
+/* brilho superior suave dentro do pill (sem exagero) */
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english::after,
+.letter-full-text p.final-english::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 70%) !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+@keyframes auroraSpin { to { transform: rotate(1turn); } }
+
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .highlighted-phrase,
+.letter-full-text p.final-english .highlighted-phrase {
+  /* texto com leve degradê nítido */
+  background: linear-gradient(90deg, #ffffff, #efe9ff 40%, #ffffff) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-weight: 900 !important;
+}
+
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .heart-emoji,
+.letter-full-text p.final-english .heart-emoji {
+  filter: drop-shadow(0 1px 3px rgba(167,139,250,.45)) !important; /* discreto */
+}
+
+/* Respeita reduzir movimento */
+@media (prefers-reduced-motion: reduce) {
+  .letter-zoom-modal .zoom-body .letter-full-text p.final-english::before,
+  .letter-full-text p.final-english::before { animation: none !important; }
+}
+
+/* Ajustes responsivos finos */
+@media (max-width: 720px) {
+  .letter-full-text .big-love { font-size: 1.2rem !important; padding: 8px 14px !important; }
+  .letter-full-text p.final-english { font-size: 14px !important; padding: 12px 14px !important; max-width: 92% !important; }
+}
+
+/* Love Letter v3 — deep plum + lavender (mais aconchegante e legível) */
+.love-letter {
+  --ll-surface-deep: linear-gradient(180deg, #19112f 0%, #140f26 100%);
+  --ll-surface-tint:
+    radial-gradient(900px 500px at 10% -10%, rgba(124,58,237,.08), transparent 60%),
+    radial-gradient(900px 700px at 120% 120%, rgba(167,139,250,.06), transparent 55%);
+  --ll-border: rgba(183, 164, 255, .40);
+  --ll-text: #E7E0FF;   /* texto primário lavanda */
+  --ll-text-2: #D5CBFF; /* parágrafos */
+  --ll-muted: #B8ACF5;
+}
+
+/* aplica novo fundo à área da carta */
+.letter-zoom-modal .zoom-body.love-letter {
+  background: var(--ll-surface-tint), var(--ll-surface-deep) !important;
+  border: 1.5px solid var(--ll-border) !important;
+}
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text {
+  color: var(--ll-text) !important;
+}
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text p {
+  color: var(--ll-text-2) !important;
+}
+
+/* Final English — exuberante, limpo e elegante */
+.letter-full-text p.final-english,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english {
+  position: relative !important;
+  isolation: isolate !important;
+  margin: 26px auto 0 !important;
+  padding: 18px 24px !important;
+  max-width: 760px !important;
+  border-radius: 18px !important;
+  /* vidro roxo profundo sem poluição visual */
+  background: linear-gradient(180deg, rgba(47, 32, 86, .55), rgba(28, 20, 52, .55)) !important;
+  border: 1px solid rgba(183,164,255,.45) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: 0 14px 44px rgba(0,0,0,.36), inset 0 0 0 1px rgba(255,255,255,.03) !important;
+  color: #F1EDFF !important;
+  font-weight: 900 !important;
+  letter-spacing: .2px !important;
+  text-align: center !important;
+  overflow: hidden !important;
+}
+
+/* borda aurora discreta e sofisticada */
+.letter-full-text p.final-english::before,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -2px !important;
+  border-radius: 20px !important;
+  background: conic-gradient(
+    from 0deg,
+    #bba3ff,
+    #7c3aed,
+    #9e8dfd,
+    #8b5cf6,
+    #bba3ff
+  ) !important;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  padding: 2px !important;
+  animation: auroraSpin 16s linear infinite !important;
+  opacity: .85 !important;
+  pointer-events: none !important;
+}
+
+.letter-full-text p.final-english::after,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px !important;
+  border-radius: 16px !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), transparent 70%) !important;
+  pointer-events: none !important;
+}
+
+@keyframes auroraSpin { to { transform: rotate(1turn); } }
+
+.letter-full-text p.final-english .highlighted-phrase,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .highlighted-phrase {
+  background: linear-gradient(90deg, #ffffff, #efe9ff 40%, #ffffff) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-weight: 900 !important;
+}
+
+.letter-full-text p.final-english .heart-emoji,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .heart-emoji {
+  filter: drop-shadow(0 1px 3px rgba(183,164,255,.45)) !important;
+}
+
+/* acessibilidade: reduzir movimento */
+@media (prefers-reduced-motion: reduce) {
+  .letter-full-text p.final-english::before { animation: none !important; }
+}
+
+/* Fix: texto do bloco antes do EU TE AMO herda visual dos parágrafos (tema love-letter) */
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text .big-love-block {
+  display: block !important;
+  margin: 22px 0 !important;
+  padding: 0 !important;
+  text-align: left !important;                /* texto normal como os <p> */
+  color: var(--ll-text-2) !important;         /* mesma cor dos parágrafos do tema */
+  font-size: 16.5px !important;
+  line-height: 1.9 !important;
+}
+
+/* EU TE AMO! em nova linha, centralizado e já com o estilo nítido que você aprovou */
+.letter-zoom-modal .zoom-body.love-letter .letter-full-text .big-love-block .big-love {
+  display: block !important;
+  margin: 10px auto 0 !important;
+  text-align: center !important;
+}
+
+/* Final English v4 — sem retângulo girando; borda gradiente + glow sutil e texto com sheen leve */
+.letter-full-text p.final-english,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english {
+  position: relative !important;
+  isolation: isolate !important;
+  margin: 26px auto 0 !important;
+  padding: 18px 24px !important;
+  max-width: 760px !important;
+  border-radius: 18px !important;
+
+  /* vidro roxo profundo mais limpo */
+  background: linear-gradient(180deg, rgba(46, 33, 86, .55), rgba(26, 20, 52, .55)) !important;
+  border: 1px solid rgba(183,164,255,.45) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+
+  /* brilho controlado (sem poluição) */
+  box-shadow: 0 12px 40px rgba(124,58,237,0.24), inset 0 0 0 1px rgba(255,255,255,0.03) !important;
+  color: #F1EDFF !important;
+  font-weight: 900 !important;
+  letter-spacing: .2px !important;
+  text-align: center !important;
+  overflow: hidden !important;
+
+  /* glow “breathing” bem sutil */
+  animation: feBreathe 9s ease-in-out infinite;
+}
+
+/* Remove qualquer efeito antigo (retângulo listrado/rotacionando) e cria apenas a borda gradiente estática */
+.letter-full-text p.final-english::before,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -2px !important;
+  border-radius: 20px !important;
+  /* gradiente de borda fixo (sem animação) */
+  background: conic-gradient(
+    from 0deg,
+    #bba3ff,
+    #7c3aed,
+    #9e8dfd,
+    #8b5cf6,
+    #bba3ff
+  ) !important;
+
+  /* máscara para mostrar só a borda, não o preenchimento */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+
+  padding: 2px !important;
+
+  /* mata efeitos anteriores que usavam ::before como “faixa” móvel */
+  width: auto !important;
+  left: 0 !important; right: 0 !important;
+  animation: none !important;
+  pointer-events: none !important;
+  opacity: .9 !important;
+}
+
+/* brilho superior suave dentro do pill */
+.letter-full-text p.final-english::after,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 2px !important;
+  border-radius: 16px !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), transparent 70%) !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Texto com sheen muito leve (elegante) */
+.letter-full-text p.final-english .highlighted-phrase,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .highlighted-phrase {
+  background: linear-gradient(90deg, #ffffff, #efe9ff 40%, #ffffff) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-weight: 900 !important;
+
+  /* sheen suave e contínuo (sem abuso visual) */
+  background-size: 200% 100% !important;
+  animation: feSheen 14s ease-in-out infinite alternate;
+}
+
+/* Coração com profundidade discreta */
+.letter-full-text p.final-english .heart-emoji,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .heart-emoji {
+  filter: drop-shadow(0 1px 3px rgba(183,164,255,.45)) !important;
+}
+
+/* Animações suaves */
+@keyframes feBreathe {
+  0%, 100% { box-shadow: 0 12px 40px rgba(124,58,237,0.22), inset 0 0 0 1px rgba(255,255,255,0.03); }
+  50%      { box-shadow: 0 16px 48px rgba(124,58,237,0.30), inset 0 0 0 1px rgba(255,255,255,0.04); }
+}
+@keyframes feSheen {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* Acessibilidade: reduzir movimento */
+@media (prefers-reduced-motion: reduce) {
+  .letter-full-text p.final-english { animation: none !important; }
+  .letter-full-text p.final-english .highlighted-phrase { animation: none !important; }
+}
+
+/* Final English v5 — fonte display + gradiente nítido, sem retângulo girando */
+.letter-full-text p.final-english,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english {
+  /* container mais contrastado e limpo */
+  background: linear-gradient(180deg, rgba(38, 26, 74, .65), rgba(20, 15, 44, .65)) !important;
+  border: 1.5px solid rgba(189, 173, 255, .55) !important;
+  box-shadow: 0 16px 48px rgba(124,58,237,.30), inset 0 0 0 1px rgba(255,255,255,.04) !important;
+  padding: clamp(14px, 1.4vw + 8px, 22px) clamp(16px, 2vw + 8px, 28px) !important;
+  border-radius: 18px !important;
+  color: #F5F1FF !important;
+}
+
+/* mata qualquer efeito antigo de ::before (nada de barras/rotação) */
+.letter-full-text p.final-english::before,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english::before {
+  content: none !important;
+  animation: none !important;
+}
+
+/* Texto com “tchan” – fonte display + gradiente vivo e nítido */
+.letter-full-text p.final-english .highlighted-phrase,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .highlighted-phrase,
+.letter-full-text p.final-english .strong-highlight,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .strong-highlight {
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-weight: 900 !important;
+  font-size: clamp(18px, 1.2vw + 16px, 28px) !important;
+  letter-spacing: .01em !important;
+  line-height: 1.2 !important;
+
+  /* gradiente do texto (lavanda -> violeta intenso -> lavanda) */
+  background: linear-gradient(90deg, #fff1ff 0%, #d9c0ff 30%, #9f7dfb 55%, #cdb7ff 85%, #fff1ff 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+
+  /* nitidez e presença */
+  -webkit-text-stroke: 0.4px rgba(255,255,255,0.08) !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15) !important;
+
+  /* sheen suave para dar vida, sem poluição */
+  background-size: 200% 100% !important;
+  animation: feSheen 12s ease-in-out infinite alternate;
+}
+
+/* coração com leve destaque */
+.letter-full-text p.final-english .heart-emoji {
+  filter: drop-shadow(0 1px 3px rgba(185,170,255,.5)) !important;
+}
+
+/* acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .letter-full-text p.final-english .highlighted-phrase { animation: none !important; }
+}
+
+/* Final English — destaque do coração 💜 (pop + halo lavanda) */
+.letter-full-text p.final-english .heart-emoji,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .heart-emoji {
+  position: relative !important;
+  display: inline-block !important;
+  margin-left: 8px !important;
+  vertical-align: -2px !important;
+  font-size: clamp(1.05em, 1.2em, 1.25em) !important;
+  /* deixa mais vivo sem estourar */
+  filter: saturate(1.2) brightness(1.15) drop-shadow(0 2px 6px rgba(168, 140, 255, .45)) !important;
+  /* brilho sutil compatível com emoji */
+  text-shadow:
+    0 0 2px rgba(255,255,255,.25),
+    0 2px 8px rgba(167,139,250,.35),
+    0 4px 18px rgba(124,58,237,.28) !important;
+  animation: heartPop 3.6s ease-in-out infinite !important;
+  z-index: 1;
+}
+
+/* halo suave atrás do coração (não sai do pill) */
+.letter-full-text p.final-english .heart-emoji::after,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .heart-emoji::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.6em; height: 1.6em;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168,140,255,.42), rgba(124,58,237,.18) 55%, transparent 70%) !important;
+  filter: blur(1px);
+  pointer-events: none !important;
+  z-index: -1;
+}
+
+@keyframes heartPop {
+  0%, 100% { transform: translateY(1px) scale(1); }
+  50%      { transform: translateY(0) scale(1.14); }
+}
+
+/* acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .letter-full-text p.final-english .heart-emoji { animation: none !important; }
+}
+
+/* Final English — fix de alinhamento do halo do coração */
+.letter-full-text p.final-english .heart-emoji,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .heart-emoji {
+  line-height: 1 !important;
+  vertical-align: middle !important;
+  transform: translateY(1px) !important; /* microajuste de baseline */
+}
+
+.letter-full-text p.final-english .heart-emoji::after,
+.letter-zoom-modal .zoom-body .letter-full-text p.final-english .heart-emoji::after {
+  inset: -.2em !important;               /* cobre o emoji de forma simétrica */
+  width: auto !important;
+  height: auto !important;
+  left: auto !important; top: auto !important; /* neutraliza regras antigas */
+  transform: none !important;
+  border-radius: 999px !important;
+  background: radial-gradient(45% 55% at 50% 50%,
+              rgba(185,170,255,.50), rgba(124,58,237,.22) 60%, transparent 70%) !important;
+}
+
+/* Gate de entrada (index) */
+#entryGate.entry-gate {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(80% 60% at 50% 40%, rgba(124,58,237,.12), transparent 60%),
+    rgba(15,15,20,.96);
+  z-index: 10000;
+}
+.entry-card {
+  padding: 28px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(189,173,255,.35);
+  background: linear-gradient(180deg, rgba(38,26,74,.55), rgba(20,15,44,.65));
+  box-shadow: 0 20px 50px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.03);
+  text-align: center;
+  max-width: 520px;
+  width: 90%;
+}
+.entry-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 28px;
+  margin: 0 0 8px;
+  background: linear-gradient(90deg,#fff1ff,#bfa7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.entry-sub { color: #d5cbff; margin: 0 0 18px; }
+.entry-btn {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  border: 0;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 8px 25px rgba(124,58,237,.35);
+}
+
+/* Presentes: só aparecem quando autorizado */
+.random-gift { display: none !important; }
+body.gifts-on .random-gift { display: block !important; }
+
+/* Presentinhos — visual polido e emoji 100% centralizado */
+.random-gift {
+  /* tamanho base (ajuste livre) */
+  --s: 56px;
+  width: var(--s);
+  height: var(--s);
+
+  position: relative;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  text-align: center;
+
+  border-radius: 14px;
+  border: 1px solid rgba(189,173,255,.45);
+  background:
+    radial-gradient(120% 120% at 20% 15%, rgba(167,139,250,.18), transparent 45%),
+    linear-gradient(180deg, rgba(38,26,74,.7), rgba(20,15,44,.75));
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.36),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+
+  /* animação e interação */
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  cursor: pointer;
+  user-select: none;
+
+  /* por padrão, não aparece antes do clique na página inicial */
+  display: none;
+}
+body.gifts-on .random-gift { display: grid !important; }
+
+.random-gift::before {
+  /* brilho de vidro superior */
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 70%);
+  pointer-events: none;
+}
+
+.random-gift::after {
+  /* aro aurora discreto */
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 15px;
+  background: conic-gradient(from 0deg, #bba3ff, #7c3aed, #9e8dfd, #8b5cf6, #bba3ff);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+  opacity: .9;
+  pointer-events: none;
+}
+
+/* emoji centralizado, com micro-ajuste de baseline */
+.random-gift,
+.random-gift .gift-emoji {
+  font-size: calc(var(--s) * .52);
+  transform: translateY(1px);
+}
+.random-gift .gift-emoji { display: inline-block; }
+
+/* hover/focus */
+.random-gift:hover,
+.random-gift:focus-visible {
+  transform: translateY(-3px);
+  box-shadow:
+    0 16px 40px rgba(124,58,237,.34),
+    inset 0 0 0 1px rgba(255,255,255,.05);
+  border-color: rgba(189,173,255,.7);
+}
+
+/* variantes responsivas (fica maior em telas menores se quiser) */
+@media (max-width: 520px) {
+  .random-gift { --s: 60px; }
+}
+/* Presentes só aparecem quando liberado */
+.random-gift { display: none; }
+body.gifts-on .random-gift { display: grid !important; }
+
+/* Presentinhos v2 — centralização perfeita + borda gradiente nítida */
+.random-gift {
+  --s: 56px;
+  width: var(--s);
+  height: var(--s);
+  box-sizing: border-box;
+
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+
+  border-radius: 14px;
+  border: 1px solid transparent; /* necessário p/ técnica do border gradiente */
+
+  /* 1º bg = conteúdo; 2º bg = borda gradiente com border-box */
+  background:
+    radial-gradient(120% 120% at 20% 15%, rgba(167,139,250,.18), transparent 45%),
+    linear-gradient(180deg, rgba(38,26,74,.72), rgba(20,15,44,.78)) padding-box,
+    conic-gradient(from 0deg, #bba3ff, #7c3aed, #9e8dfd, #8b5cf6, #bba3ff) border-box;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.36),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+
+  transition: transform .18s ease, box-shadow .18s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.random-gift::before {
+  /* brilho superior */
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), transparent 70%);
+  pointer-events: none;
+}
+
+/* Emoji central 100% */
+.random-gift .gift-emoji,
+.random-gift { font-size: calc(var(--s) * .52); }
+.random-gift .gift-emoji {
+  display: inline-block;
+  transform: translateY(1px);
+}
+
+/* Hover/active */
+.random-gift:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow:
+    0 16px 40px rgba(124,58,237,.34),
+    inset 0 0 0 1px rgba(255,255,255,.05);
+}
+.random-gift:active,
+.random-gift.gift-press {
+  transform: translateY(0) scale(.96);
+  box-shadow:
+    0 8px 18px rgba(124,58,237,.28),
+    inset 0 0 0 1px rgba(255,255,255,.05);
+}
+
+/* Responsivo */
+@media (max-width: 520px) {
+  .random-gift { --s: 60px; }
+
+
+}
+
+/* Gate — Happy Birthday (central, limpo, lindo) */
+.entry-content {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  z-index: 100000;                  /* acima de tudo */
+  cursor: pointer;
+
+  /* fundo: vinheta suave + aurora roxa */
+  background:
+    radial-gradient(70% 50% at 50% 45%, rgba(124,58,237,.14), rgba(20,15,30,.0) 60%),
+    radial-gradient(120% 90% at 50% 60%, rgba(26,20,52,.88), rgba(15,15,20,.96) 70%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* brilho de aurora bem sutil ao fundo (sem poluição) */
+@media (prefers-reduced-motion: no-preference) {
+  .entry-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 40% at 30% 30%, rgba(167,139,250,.08), transparent 70%),
+      radial-gradient(60% 40% at 70% 70%, rgba(139,92,246,.08), transparent 70%);
+    filter: blur(12px);
+    animation: gateAurora 12s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes gateAurora {
+    from { transform: scale(1) translateY(0); opacity: .85; }
+    to   { transform: scale(1.03) translateY(-2%); opacity: 1; }
+  }
+}
+
+/* neutraliza QUALQUER efeito global no primeiro h1 */
+.entry-content h1,
+.entry-content h1:first-of-type {
+  animation: none !important;
+}
+.entry-content h1::before,
+.entry-content h1::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* título — gradiente nítido e elegante */
+.entry-content h1 {
+  margin: 0 0 10px;
+  font-size: clamp(32px, 4.6vw, 56px);
+  font-weight: 900;
+  letter-spacing: .4px;
+  background: linear-gradient(90deg, #fff1ff 0%, #d9c9ff 35%, #b59fff 70%, #fff1ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 26px rgba(124,58,237,.35);
+}
+
+/* subtítulo (se usar) */
+.entry-content p {
+  margin: 0 0 6px;
+  color: #d5cbff;
+  font-size: clamp(13px, 1.3vw, 16px);
+  opacity: .95;
+}
+
+/* coração roxo abaixo do título */
+.entry-content .entry-heart {
+  font-size: clamp(28px, 5vw, 42px);
+  line-height: 1;
+  filter: drop-shadow(0 4px 18px rgba(124,58,237,.45));
+}
+
+/* foco por teclado: acessível */
+.entry-content:focus-visible {
+  outline: 2px solid rgba(167,139,250,.55);
+  outline-offset: -4px;
+}
+
+/* esconder quando o site estiver liberado */
+.entry-content.hidden { display: none !important; }
+
+body.gifts-on .entry-content,
+body.gifts-on .entry-content::before,
+body.gifts-on #entryGate { 
+  display: none !important; 
+  filter: none !important; 
+  -webkit-backdrop-filter: none !important; 
+  backdrop-filter: none !important; 
+}
+
+/* === Global polish pack (não-destrutivo) === */
+
+/* Tokens extras (sem quebrar os existentes) */
+:root {
+  --radius-1: 12px;
+  --radius-2: 16px;
+  --shadow-1: 0 10px 30px rgba(0,0,0,.25);
+  --shadow-2: 0 14px 44px rgba(0,0,0,.35);
+  --surface-1: rgba(28, 24, 48, 0.8);
+  --surface-2: rgba(20, 18, 34, 0.8);
+  --border-1: rgba(167,139,250,.25);
+  --border-2: rgba(167,139,250,.40);
+}
+
+/* Tipografia – escalas suaves */
+h1 { font-size: clamp(26px, 3.5vw, 38px); }
+h2 { font-size: clamp(20px, 2.4vw, 26px); }
+h3 { font-size: clamp(18px, 2vw, 22px); }
+
+/* Container: respiro melhor em telas grandes e compactação no mobile */
+.container { padding: clamp(16px, 2.5vw, 28px); }
+
+/* Navegação — borda nítida, blur equilibrado e contraste melhor */
+.nav {
+  border: 1px solid var(--border-1);
+  background:
+    radial-gradient(120% 120% at 15% -40%, rgba(124,58,237,.12), transparent 60%),
+    rgba(18,18,28,.78);
+  box-shadow: var(--shadow-1);
+}
+.nav .brand { gap: 10px; }
+.nav .links a {
+  color: #EDEBFF;
+  font-weight: 600;
+}
+.nav .links a:hover {
+  background: rgba(167,139,250,.12);
+  border-radius: 10px;
+}
+
+/* Cards — borda gradiente sutil, profundidade e hover limpo */
+.card {
+  border-radius: var(--radius-2);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(180deg, rgba(124,58,237,.10), rgba(124,58,237,0) 120%) padding-box,
+    conic-gradient(from 0deg, #7c3aed, #a78bfa, #7c3aed) border-box,
+    var(--card);
+  box-shadow: var(--shadow-1);
+}
+.card:hover {
+  box-shadow: var(--shadow-2);
+  transform: translateY(-2px);
+}
+
+/* Botões — consistência de estados e acessibilidade */
+.btn {
+  border-radius: var(--radius-1);
+  letter-spacing: .2px;
+}
+.btn:focus-visible {
+  outline: 2px solid rgba(167,139,250,.7);
+  outline-offset: 2px;
+}
+.btn.primary,
+.btn:not(.secondary):not(.ghost) {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+}
+.btn.secondary { background: linear-gradient(135deg, #3a2a7a, #5b21b6); }
+.btn.ghost {
+  background: rgba(167,139,250,.08);
+  border: 1px solid var(--border-2);
+}
+.btn:disabled { opacity: .55; cursor: not-allowed; transform: none !important; }
+
+/* Badges — leitura melhor */
+.badge { color: #E9E7FF; border-color: var(--border-2); }
+
+/* Footer — contraste e brilho controlados */
+.footer {
+  border-top: 1px solid var(--border-1);
+  color: #b7b2dd;
+}
+
+/* Quiz — estados mais claros e acessíveis */
+.option {
+  border: 1px solid var(--border-1);
+  background: linear-gradient(180deg, rgba(44,47,74,.9), rgba(44,47,74,.8));
+}
+.option:hover {
+  border-color: rgba(167,139,250,.5);
+}
+.option.correct {
+  background: linear-gradient(180deg, rgba(22,163,74,.16), rgba(22,163,74,.10));
+  border-color: rgba(34,197,94,.55);
+  box-shadow: 0 8px 22px rgba(34,197,94,.18);
+}
+.option.incorrect {
+  background: linear-gradient(180deg, rgba(239,68,68,.16), rgba(239,68,68,.10));
+  border-color: rgba(239,68,68,.55);
+  box-shadow: 0 8px 22px rgba(239,68,68,.18);
+}
+
+/* Modais — superfície mais limpa e foco melhor no conteúdo */
+.modal {
+  background: radial-gradient(120% 90% at 50% 10%, rgba(12,10,20,.7), rgba(8,8,12,.78)) !important;
+  backdrop-filter: blur(6px);
+}
+.modal .dialog {
+  border-radius: var(--radius-2);
+  border: 1px solid var(--border-2);
+  background:
+    linear-gradient(180deg, rgba(124,58,237,.06), rgba(124,58,237,0)) padding-box,
+    var(--surface-1);
+  box-shadow: var(--shadow-2);
+}
+
+/* Presentinhos — micro ajustes finais para nitidez */
+.random-gift {
+  will-change: transform;
+}
+.random-gift:hover { transform: translateY(-4px) scale(1.02); }
+.random-gift:active { transform: translateY(-1px) scale(.98); }
+
+/* Tabelas/listas (se houver) — aparência coerente com o tema */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(18,18,28,.6);
+  border: 1px solid var(--border-1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+th, td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(167,139,250,.12);
+}
+th {
+  text-align: left;
+  color: #EDEBFF;
+  background: rgba(28,24,48,.6);
+}
+
+/* Inputs — contraste e foco coesos */
+input, textarea {
+  background: rgba(15,15,23,.9);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-1);
+}
+input:focus, textarea:focus {
+  border-color: var(--border-2);
+  box-shadow: 0 0 0 4px rgba(124,58,237,.18);
+}
+
+/* Utilidades pequenas */
+.center { text-align: center !important; }
+.muted { color: #a7a1cb !important; }
+
+/* Mobile refinements */
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .nav { padding: 12px 16px; }
+  .card { padding: 18px; }
+}
+
+/* === Fantástico Theme v2 — overrides e polimento global === */
+
+/* Tokens do tema (sem quebrar os existentes) */
+:root {
+  --fx-bg-1: #0f0f14;
+  --fx-bg-2: #12101b;
+  --fx-surface-1: rgba(28, 24, 48, .88);
+  --fx-surface-2: rgba(22, 18, 38, .9);
+  --fx-border-1: rgba(167,139,250,.25);
+  --fx-border-2: rgba(167,139,250,.45);
+  --fx-acc-1: #7c3aed;
+  --fx-acc-2: #a78bfa;
+  --fx-text-1: #ecebff;
+  --fx-text-2: #cfc9f8;
+}
+
+/* Fundo com vinheta suave (sem faixas) */
+body {
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(124,58,237,.10), transparent 60%),
+    var(--fx-bg-1) !important;
+  color: var(--fx-text-1);
+}
+
+/* 1) Remoção de brilhos/faixas que criavam a linha no centro */
+.card::before,
+.card::after,
+.nav::before,
+.nav .links a::before,
+.footer::before,
+.footer::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+/* 2) Cards — superfície nítida e consistente */
+.card {
+  background:
+    linear-gradient(180deg, var(--fx-surface-1), var(--fx-surface-2)) !important;
+  border: 1px solid var(--fx-border-1) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,.32) !important;
+  transform: translateZ(0); /* melhora nitidez */
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--fx-border-2) !important;
+  box-shadow: 0 18px 48px rgba(0,0,0,.38) !important;
+}
+
+/* 3) Navegação — menos blur/mais contraste */
+.nav {
+  background: rgba(18, 18, 28, .82) !important;
+  border: 1px solid var(--fx-border-1) !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+.nav .links a {
+  color: var(--fx-text-1) !important;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+.nav .links a:hover {
+  background: rgba(167,139,250,.12) !important;
+  text-decoration: none !important;
+}
+
+/* 4) Títulos — brilho controlado (sem “shimmer” exagerado) */
+h1:first-of-type,
+.card h1:first-of-type {
+  -webkit-text-fill-color: initial; /* neutraliza fill transparente global */
+  animation: none !important;
+  background: none !important;
+  color: var(--fx-text-1) !important;
+}
+h1, h2, h3 { letter-spacing: .2px; }
+.card h2 { color: #e8e4ff !important; }
+
+/* 5) Botões — gradiente roxo com hover bonito */
+.btn {
+  background: linear-gradient(135deg, var(--fx-acc-1), var(--fx-acc-2)) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 24px rgba(124,58,237,.35) !important;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn.ghost {
+  background: rgba(167,139,250,.10) !important;
+  border: 1px solid var(--fx-border-2) !important;
+  color: var(--fx-text-1) !important;
+  box-shadow: none !important;
+}
+.btn.secondary {
+  background: linear-gradient(135deg, #3a2a7a, #5b21b6) !important;
+}
+
+/* 6) Badges — leitura melhor */
+.badge { color: #EDEBFF !important; border-color: var(--fx-border-2) !important; }
+
+/* 7) Modais — fundo soft e diálogo limpo */
+.modal {
+  background: radial-gradient(100% 90% at 50% 10%, rgba(8,8,14,.72), rgba(8,8,14,.82)) !important;
+  backdrop-filter: blur(6px) !important;
+}
+.modal .dialog {
+  background: linear-gradient(180deg, rgba(28,24,48,.95), rgba(22,18,38,.96)) !important;
+  border: 1px solid var(--fx-border-2) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 22px 64px rgba(0,0,0,.45) !important;
+}
+
+/* 8) Inputs — foco consistente e claro */
+input, textarea {
+  background: #0f0f17 !important;
+  border: 1px solid var(--fx-border-1) !important;
+  color: var(--fx-text-1) !important;
+}
+input:focus, textarea:focus {
+  border-color: var(--fx-border-2) !important;
+  box-shadow: 0 0 0 4px rgba(124,58,237,.18) !important;
+}
+
+/* 9) Quiz — cores sólidas e acessíveis */
+.option {
+  background: #2c2f4a !important;
+  border: 1px solid var(--fx-border-1) !important;
+}
+.option:hover {
+  background: #3d4169 !important;
+  border-color: var(--fx-border-2) !important;
+}
+.option.correct {
+  background: rgba(34,197,94,.12) !important;
+  border-color: rgba(34,197,94,.55) !important;
+  box-shadow: 0 10px 22px rgba(34,197,94,.18) !important;
+}
+.option.incorrect {
+  background: rgba(239,68,68,.12) !important;
+  border-color: rgba(239,68,68,.55) !important;
+  box-shadow: 0 10px 22px rgba(239,68,68,.18) !important;
+}
+
+/* 10) Página Cores — bloco de desbloqueio e grid */
+#lockGate.card { text-align: left; }
+.lock input { height: 40px; }
+.lock .btn { height: 40px; }
+
+/* 11) Footer — menos brilho e borda sutil */
+.footer {
+  border-top: 1px solid var(--fx-border-1) !important;
+  color: var(--fx-text-2) !important;
+}
+
+/* 12) Presentinhos — mantém centralização e limpa “aurora” exagerada */
+.random-gift::after,
+.random-gift::before {
+  opacity: .85;
+  filter: saturate(1);
+}
+
+/* === Quiz polish v3 — foco, contraste e responsividade === */
+
+/* Card do quiz um pouco mais destacado do restante */
+#quizCard.card {
+  background: linear-gradient(180deg, rgba(28,24,48,.92), rgba(22,18,38,.95)) !important;
+  border: 1px solid rgba(167,139,250,.28) !important;
+  box-shadow: 0 16px 48px rgba(0,0,0,.38) !important;
+}
+
+/* Cabeçalho do quiz mais alinhado */
+.quiz-header {
+  align-items: center;
+  gap: clamp(16px, 2vw, 28px);
+}
+.quiz-title h1 {
+  color: #efeaff !important;
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+
+/* Badges meta mais legíveis */
+.quiz-meta .badge {
+  background: rgba(167,139,250,.10);
+  border: 1px solid rgba(167,139,250,.35);
+  color: #EDEBFF;
+}
+.quiz-meta .badge .timer { color: #fff; }
+
+/* Timer em formato pill, com números tabulares */
+.timer {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(124,58,237,.20);
+  border: 1px solid rgba(167,139,250,.45);
+  box-shadow: 0 4px 14px rgba(124,58,237,.25);
+}
+
+/* Toolbar coesa e com foco visível */
+.toolbar .btn {
+  border-radius: 10px;
+  min-height: 38px;
+  letter-spacing: .2px;
+}
+.toolbar .btn:focus-visible {
+  outline: 2px solid rgba(167,139,250,.7);
+  outline-offset: 2px;
+}
+
+/* Grid de opções automático e com bom espaçamento */
+#options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* Opções: contraste, hover e foco */
+.option {
+  background: linear-gradient(180deg, #2e3150, #2a2d49) !important;
+  border: 1px solid rgba(167,139,250,.28) !important;
+  color: #f6f5ff !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.25);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.option:hover {
+  transform: translateY(-2px);
+  border-color: rgba(167,139,250,.5) !important;
+  background: linear-gradient(180deg, #383c63, #30355a) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.3);
+}
+.option:active {
+  transform: translateY(0);
+}
+.option:focus-visible {
+  outline: 3px solid rgba(167,139,250,.55);
+  outline-offset: 2px;
+}
+
+/* Estado selecionado (se o JS aplicar .selected) */
+.option.selected {
+  border-color: rgba(167,139,250,.7) !important;
+  background: linear-gradient(180deg, #3d4270, #353a64) !important;
+  box-shadow: 0 12px 30px rgba(124,58,237,.28);
+}
+
+/* Correta/errada com ícone e cores acessíveis */
+.option.correct {
+  background: linear-gradient(180deg, rgba(22,163,74,.18), rgba(22,163,74,.12)) !important;
+  border-color: rgba(34,197,94,.65) !important;
+  box-shadow: 0 10px 24px rgba(34,197,94,.22) !important;
+  color: #eafff0 !important;
+  position: relative;
+}
+.option.correct::after {
+  content: "✔";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #34d399;
+  font-weight: 900;
+}
+
+.option.incorrect {
+  background: linear-gradient(180deg, rgba(239,68,68,.18), rgba(239,68,68,.12)) !important;
+  border-color: rgba(239,68,68,.65) !important;
+  box-shadow: 0 10px 24px rgba(239,68,68,.22) !important;
+  color: #fff0f0 !important;
+  position: relative;
+}
+.option.incorrect::after {
+  content: "✖";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #f87171;
+  font-weight: 900;
+}
+
+.option.disabled {
+  opacity: .55 !important;
+  filter: grayscale(.2);
+  cursor: default;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Animação sutil de entrada das opções (melhora percepção de mudança) */
+@media (prefers-reduced-motion: no-preference) {
+  #options .option { animation: optFade .28s ease-out both; }
+  #options .option:nth-child(1) { animation-delay: .02s; }
+  #options .option:nth-child(2) { animation-delay: .05s; }
+  #options .option:nth-child(3) { animation-delay: .08s; }
+  #options .option:nth-child(4) { animation-delay: .11s; }
+  @keyframes optFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+}
+
+/* Estado “shake” para resposta errada (se o JS adicionar .shake) */
+@media (prefers-reduced-motion: no-preference) {
+  .option.shake { animation: shake .35s ease; }
+  @keyframes shake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(3px); }
+    30%, 50%, 70% { transform: translateX(-6px); }
+    40%, 60% { transform: translateX(6px); }
+  }
+}
+
+/* Mobile refinements para o quiz */
+@media (max-width: 720px) {
+  .quiz-header { flex-direction: column; align-items: stretch; }
+  .toolbar { justify-content: stretch; }
+  .toolbar .btn { flex: 1; min-width: 0; }
+  #options { grid-template-columns: 1fr; gap: 10px; }
+  .option { padding: 12px 14px; font-size: 14.5px; }
+}
+
+/* === Quiz Ultra v4 — visual fantástico e consistente === */
+:root{
+  --q-bg1:#1c1830; --q-bg2:#151329;
+  --q-border1:rgba(167,139,250,.28); --q-border2:rgba(167,139,250,.5);
+  --q-txt:#f5f3ff; --q-txt2:#cfc9f8;
+  --q-acc1:#7c3aed; --q-acc2:#a78bfa;
+  --q-green:#22c55e; --q-red:#ef4444; --q-amber:#f59e0b;
+  --q-progress: 0; /* 0..1 (atualizado pelo JS) */
+}
+
+/* wrap */
+.quiz-wrap { max-width: 1080px; margin: 0 auto; }
+
+/* card do quiz */
+#quizCard.card{
+  position: relative;
+  background: linear-gradient(180deg, var(--q-bg1), var(--q-bg2)) !important;
+  border:1px solid var(--q-border1) !important;
+  box-shadow: 0 16px 48px rgba(0,0,0,.38) !important;
+}
+
+/* barra de progresso (suave) */
+#quizCard.card::after{
+  content:"";
+  position:absolute; left:12px; right:12px; bottom:10px; height:6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--q-acc1), var(--q-acc2));
+  transform-origin:left center;
+  transform: scaleX(var(--q-progress));
+  transition: transform .25s ease;
+  opacity:.85;
+}
+
+/* header */
+.quiz-header{ display:flex; flex-direction:column; gap:16px; }
+.quiz-info{ display:flex; flex-direction:column; gap:12px; }
+.quiz-title{ display:flex; flex-direction:column; gap:10px; }
+.quiz-title h1{
+  margin:0;
+  color: var(--q-txt) !important;
+  letter-spacing:.2px; font-weight:900;
+  animation:none !important; -webkit-text-fill-color:initial !important;
+}
+
+/* badges/meta */
+.quiz-meta{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.quiz-meta .badge{
+  background: rgba(167,139,250,.10);
+  border:1px solid var(--q-border2);
+  color:#edeaff;
+}
+#diffBadge.easy   { border-color:#34d399; color:#d1fae5; background:rgba(34,197,94,.12); }
+#diffBadge.medium { border-color:#f59e0b; color:#fff3d6; background:rgba(245,158,11,.12); }
+#diffBadge.hard   { border-color:#ef4444; color:#ffe4e6; background:rgba(239,68,68,.12); }
+
+.timer{
+  font-variant-numeric: tabular-nums;
+  padding:4px 10px; border-radius:999px;
+  background: rgba(124,58,237,.20);
+  border:1px solid var(--q-border2);
+  box-shadow: 0 4px 14px rgba(124,58,237,.25);
+}
+
+/* toolbar */
+.toolbar{ display:flex; flex-wrap:wrap; gap:12px; }
+.toolbar .btn{
+  min-height:40px; border-radius:10px;
+  letter-spacing:.2px;
+}
+.toolbar .btn.ghost{
+  background: rgba(167,139,250,.10) !important;
+  border:1px solid var(--q-border2) !important;
+  color: var(--q-txt) !important;
+  box-shadow:none !important;
+}
+#btnHint.btn{
+  background: linear-gradient(135deg, var(--q-acc1), var(--q-acc2)) !important;
+  box-shadow:0 10px 24px rgba(124,58,237,.35) !important;
+}
+
+/* opções */
+#options{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap:14px; margin-top:18px;
+}
+.option{
+  text-align:center; padding:16px 18px;
+  border-radius:14px; color:var(--q-txt) !important;
+  background: linear-gradient(180deg, #2e3150, #2a2d49) !important;
+  border:1px solid var(--q-border1) !important;
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+  line-height:1.3;
+}
+.option:hover{
+  transform: translateY(-2px);
+  border-color: var(--q-border2) !important;
+  background: linear-gradient(180deg, #383c63, #30355a) !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.3);
+}
+.option:active{ transform: translateY(0); }
+.option:focus-visible{ outline:3px solid rgba(167,139,250,.55); outline-offset:2px; }
+
+/* estados */
+.option.correct{
+  background: linear-gradient(180deg, rgba(22,163,74,.22), rgba(22,163,74,.14)) !important;
+  border-color: rgba(34,197,94,.65) !important;
+  box-shadow: 0 10px 24px rgba(34,197,94,.22) !important;
+  color:#eafff0 !important;
+  position:relative;
+}
+.option.correct::after{
+  content:"✔"; position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  color:#34d399; font-weight:900;
+}
+.option.incorrect{
+  background: linear-gradient(180deg, rgba(239,68,68,.22), rgba(239,68,68,.14)) !important;
+  border-color: rgba(239,68,68,.65) !important;
+  box-shadow: 0 10px 24px rgba(239,68,68,.22) !important;
+  color:#fff0f0 !important;
+  position:relative;
+}
+.option.incorrect::after{
+  content:"✖"; position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  color:#f87171; font-weight:900;
+}
+.option.disabled{
+  opacity:.6 !important; cursor:default;
+  pointer-events:none; transform:none !important; box-shadow:none !important;
+}
+
+/* animações sutis */
+@media (prefers-reduced-motion:no-preference){
+  #options .option{ animation: qfade .24s ease-out both; }
+  #options .option:nth-child(2){ animation-delay:.03s; }
+  #options .option:nth-child(3){ animation-delay:.06s; }
+  #options .option:nth-child(4){ animation-delay:.09s; }
+  @keyframes qfade{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:translateY(0);} }
+  .option.shake{ animation: qshake .35s ease; }
+  @keyframes qshake{
+    10%,90%{ transform:translateX(-2px); }
+    20%,80%{ transform:translateX(3px); }
+    30%,50%,70%{ transform:translateX(-6px); }
+    40%,60%{ transform:translateX(6px); }
+  }
+}
+
+/* modal final polido */
+#finishModal .dialog{
+  border-radius:16px; border:1px solid var(--q-border2) !important;
+  background: linear-gradient(180deg, rgba(28,24,48,.95), rgba(22,18,38,.96)) !important;
+  box-shadow:0 22px 64px rgba(0,0,0,.45) !important;
+}
+#finishModal h3{ color:#efeaff; }
+#finishModal .row .btn{ min-height:40px; }
+
+/* responsivo */
+@media (max-width: 860px){
+  #options{ grid-template-columns: 1fr; }
+}
+
+#quizCard.card {
+  position: relative !important;
+  padding-bottom: 32px !important; /* reserva espaço para a barra */
+}
+
+/* Barra: trilho (before) + preenchimento (after) no rodapé do card */
+#quizCard.card::before,
+#quizCard.card::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 16px; right: 16px; bottom: 12px;
+  height: 8px; border-radius: 999px;
+  pointer-events: none !important;
+  z-index: 1;
+}
+#quizCard.card::before {
+  background: rgba(167,139,250,.18) !important; /* trilho */
+  box-shadow: inset 0 0 0 1px rgba(167,139,250,.25);
+}
+#quizCard.card::after {
+  background: linear-gradient(90deg, #7c3aed, #a78bfa) !important; /* preenchimento */
+  transform-origin: left center;
+  transform: scaleX(var(--q-progress, 0));
+  transition: transform .28s ease;
+}
+
+/* Cabeçalho organizado e alinhado */
+.quiz-header {
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Bloco com título + meta */
+.quiz-info { display: grid; gap: 12px; }
+
+/* Slot badge compacto e central no bloco do título */
+#slotBadge.badge {
+  display: inline-flex !important;
+  align-items: center; justify-content: center;
+  width: auto !important; max-width: none !important;
+  padding: 8px 14px !important;
+  margin: 0 auto 2px !important;
+  line-height: 1 !important;
+}
+
+/* Título mais centrado visualmente */
+.quiz-title { text-align: center; }
+.quiz-title h1 {
+  margin: 6px 0 8px !important;
+  font-size: clamp(20px, 2.2vw, 28px) !important;
+}
+
+/* Linha meta: badges com mesma altura e baseline */
+.quiz-meta {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+.quiz-meta .badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 34px; line-height: 1;
+  padding: 6px 12px !important;
+}
+
+/* Toolbar: altura/espaçamento consistentes */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.toolbar .btn {
+  min-height: 40px; padding: 8px 14px; border-radius: 10px !important;
+}
+
+/* Grid das opções estável (duas colunas) */
+#options {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(260px, 1fr)) !important;
+  gap: 14px !important;
+  margin-top: 16px !important;
+}
+
+/* Opções: altura e padding coerentes, texto centralizado verticalmente */
+.option {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 64px !important;
+  padding: 16px 18px !important;
+  border-radius: 14px !important;
+  text-align: center !important;
+}
+
+/* Mobile: uma coluna e elementos centralizados */
+@media (max-width: 760px){
+  .quiz-header { grid-template-columns: 1fr; }
+  .toolbar { justify-content: stretch; }
+  #options { grid-template-columns: 1fr !important; }
+}
+
+#quizCard.card { position: relative !important; padding-bottom: 36px !important; }
+
+.quiz-header {
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  align-items: center; gap: 16px;
+  margin-bottom: 8px;
+}
+.quiz-info { display: grid; gap: 10px; }
+.quiz-title { text-align: center; }
+.quiz-title h1 {
+  margin: 6px 0 8px !important;
+  font-size: clamp(22px, 2.4vw, 30px) !important;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.quiz-meta {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  margin-bottom: 6px;
+}
+.quiz-meta .badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 34px; line-height: 1; padding: 6px 12px !important;
+}
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  margin-top: 6px; margin-bottom: 6px;
+}
+.toolbar .btn { min-height: 40px; padding: 8px 14px; border-radius: 10px !important; }
+
+/* Opções: grid estável + texto sem “apertar” */
+#options {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(260px, 1fr)) !important;
+  gap: 14px !important; margin-top: 18px !important;
+}
+.option {
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  min-height: 64px !important; padding: 16px 18px !important;
+  border-radius: 14px !important; text-align: center !important;
+  line-height: 1.35; text-wrap: pretty; word-break: break-word;
+}
+
+/* Mobile */
+@media (max-width: 760px){
+  .quiz-header { grid-template-columns: 1fr; }
+  #options { grid-template-columns: 1fr !important; }
+}
+
+/* Progresso: trilho + preenchimento (largura por var) */
+#quizCard.card::before,
+#quizCard.card::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 16px; right: 16px; bottom: 12px; height: 8px;
+  border-radius: 999px; pointer-events: none;
+}
+#quizCard.card::before {
+  background: rgba(167,139,250,.18) !important;
+  box-shadow: inset 0 0 0 1px rgba(167,139,250,.25);
+}
+#quizCard.card::after {
+  right: auto; /* usamos width controlada */
+  width: var(--q-progress-pct, 0%);
+  background: linear-gradient(90deg, #7c3aed, #a78bfa) !important;
+  transition: width .28s ease;
+}
+
+/* Fallback se o card não tiver id (aplicado via classe adicionada no JS) */
+.quiz-card-progress::before,
+.quiz-card-progress::after { content: ""; position: absolute; left: 16px; bottom: 12px; height: 8px; border-radius: 999px; }
+.quiz-card-progress::before { right: 16px; background: rgba(167,139,250,.18); box-shadow: inset 0 0 0 1px rgba(167,139,250,.25); }
+.quiz-card-progress::after  { width: var(--q-progress-pct, 0%); background: linear-gradient(90deg,#7c3aed,#a78bfa); }
+
+/* Quiz — alinhamentos finos e respiros */
+#quizCard.card { position: relative; padding-bottom: 36px; }
+.quiz-header {
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  gap: 16px; margin-bottom: 8px;
+}
+.quiz-info { display: grid; gap: 10px; }
+.quiz-title { text-align: center; }
+.quiz-title h1 {
+  margin: 6px 0 8px; font-size: clamp(22px,2.4vw,30px);
+  line-height: 1.22; text-wrap: balance;
+}
+.quiz-meta { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:6px; }
+.quiz-meta .badge { display:inline-flex; align-items:center; gap:6px; height:34px; padding:6px 12px; }
+.toolbar { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:6px 0; }
+.toolbar .btn { min-height:40px; padding:8px 14px; border-radius:10px; }
+#options {
+  display:grid; grid-template-columns:repeat(2, minmax(260px,1fr));
+  gap:14px; margin-top:18px;
+}
+.option {
+  display:flex; align-items:center; justify-content:center;
+  min-height:64px; padding:16px 18px; border-radius:14px;
+  text-align:center; line-height:1.35; text-wrap:pretty; word-break:break-word;
+}
+@media (max-width:760px){ .quiz-header{ grid-template-columns:1fr; } #options{ grid-template-columns:1fr; } }
+
+/* Barra de progresso — via classe fallback (caso o card não tenha id) */
+.card.quiz-card-progress { position: relative; padding-bottom: 36px; }
+.quiz-card-progress::before,
+.quiz-card-progress::after{
+  content:""; position:absolute; left:16px; bottom:12px; height:8px; border-radius:999px;
+}
+.quiz-card-progress::before{ right:16px; background:rgba(167,139,250,.18); box-shadow:inset 0 0 0 1px rgba(167,139,250,.25); }
+.quiz-card-progress::after { width: var(--q-progress-pct, 0%); background: linear-gradient(90deg,#7c3aed,#a78bfa); transition: width .28s ease; }
+
+.card.quiz-card-progress { position: relative; padding-bottom: 36px; }
+.quiz-card-progress::before,
+.quiz-card-progress::after {
+  content: ""; position: absolute; left: 16px; bottom: 12px; height: 8px; border-radius: 999px;
+}
+.quiz-card-progress::before { right: 16px; background: rgba(167,139,250,.18); box-shadow: inset 0 0 0 1px rgba(167,139,250,.25); }
+.quiz-card-progress::after  { width: var(--q-progress-pct, 0%); background: linear-gradient(90deg,#7c3aed,#a78bfa); transition: width .28s ease; }
+
+/* Botão Voltar — estiliza o primeiro link da navbar em todas as páginas */
+.nav > div:first-child > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(167,139,250,.10);
+  border: 1px solid rgba(167,139,250,.35);
+  color: #edeaff;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(124,58,237,.20);
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+.nav > div:first-child > a:hover {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: #fff;
+  border-color: rgba(167,139,250,.55);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(124,58,237,.35);
+}
+
+/* Quiz — exuberante, elegante e legível */
+#quizCard.card {
+  background:
+    radial-gradient(80% 60% at 85% -20%, rgba(124,58,237,.18), transparent 60%),
+    radial-gradient(80% 60% at 10% -10%, rgba(167,139,250,.12), transparent 65%),
+    linear-gradient(180deg, rgba(28,24,48,.94), rgba(18,16,32,.96)) !important;
+  border: 1px solid rgba(167,139,250,.30) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45) !important;
+}
+
+.quiz-title h1 {
+  background: linear-gradient(90deg, #fff, #dcd4ff 60%, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 24px rgba(124,58,237,.25);
+}
+
+.toolbar .btn.ghost {
+  background: rgba(167,139,250,.10) !important;
+  border: 1px solid rgba(167,139,250,.45) !important;
+  box-shadow: 0 8px 20px rgba(124,58,237,.20) inset, 0 6px 16px rgba(0,0,0,.25);
+}
+#btnHint.btn {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa) !important;
+  box-shadow: 0 12px 28px rgba(124,58,237,.35) !important;
+}
+
+.option {
+  background:
+    linear-gradient(180deg, #32365a, #2b2f4d) !important;
+  border: 1px solid rgba(167,139,250,.28) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.30), inset 0 0 0 1px rgba(255,255,255,.02);
+}
+.option:hover {
+  background: linear-gradient(180deg, #3a3f67, #32375c) !important;
+  border-color: rgba(167,139,250,.50) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.34);
+}
+.option.correct {
+  background: linear-gradient(180deg, rgba(34,197,94,.22), rgba(34,197,94,.14)) !important;
+  border-color: rgba(34,197,94,.65) !important;
+}
+.option.incorrect {
+  background: linear-gradient(180deg, rgba(239,68,68,.22), rgba(239,68,68,.14)) !important;
+  border-color: rgba(239,68,68,.65) !important;
+}
+
+/* Timer/Badges com leitura clara */
+.timer {
+  background: rgba(124,58,237,.22);
+  border: 1px solid rgba(167,139,250,.50);
+  box-shadow: 0 6px 18px rgba(124,58,237,.28);
+}
+.quiz-meta .badge {
+  background: rgba(167,139,250,.10);
+  border: 1px solid rgba(167,139,250,.45);
+  color: #edeaff;
+}
+
+/* Presentinhos visíveis quando liberados */
+.random-gift { display: none; }
+body.gifts-on .random-gift {
+  display: flex !important;
+  pointer-events: auto;
+}
+.gift-emoji { filter: drop-shadow(0 6px 12px rgba(0,0,0,.35)); }
