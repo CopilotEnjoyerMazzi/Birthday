@@ -20,7 +20,10 @@
         'Você me anima quando tilto em joguinho online (eu fico insuportável, eu sei).',
         'Você me acalma quando estou ansioso.',
         'A sua voz (rs)',
-        'Suas piadinhas com o final das palavras.'
+        'Suas piadinhas com o final das palavras.',
+        'Você sempre insiste em fazer o que eu quero, ao invés de escolher.',
+        'O jeito que você fala com os seus gatinhos.',
+        'Você me ama mais que 5 mil balinhas de banana.'
       ],
       cooldown: DAY // desabilita por 24h após fechar
     },
@@ -32,7 +35,12 @@
         'Aquele domingo prestes a voltar à vida normal após as férias. Eu estava destruído, me despedacei em pecinhas, mas você foi lá e juntou uma por uma, e fez eu me sentir melhor.',
         'As piadas internas que a gente criou.',
         'Quando vimos juntos a música que eu cantei pra você.',
-        'Quando eu estava call com você e meus amigos estavam em casa.'
+        'Quando eu estava call com você e meus amigos estavam em casa.',
+        'Quando você viu esse site comigo.',
+        'Quando você ficou MVP de sage quebrando 19 boneco, você ficou tão feliz.',
+        'Quando você me falou o presente que ia me dar de aniversário, eu fiquei molinho.',
+        'O primeiro dia em que eu mandei... é.',
+        'Aquele fim de semana.. você sabe bem qual.'
       ],
       cooldown: DAY // desabilita por 24h após fechar
     },
@@ -40,14 +48,24 @@
       key:'boanoite', label:'Boa noite', meaning:'Disponível 22h–06h',
       color:'#7c3aed', bg:'linear-gradient(135deg,#3b277a,#7c3aed)',
       msgs:[
-        'Boa noite, meu amor.',
-        'Boa noite, minha princesa.',
-        'Boa noite, meu docinho.',
-        'Boa noite, bobona.',
-        'Boa noite, meu bem.',
-        'Boa noite, meu anjo.',
-        'Boa noite, flor.',
-        'Boa noite, bebê.'
+  'Boa noite, meu amor.',
+  'Boa noite, minha princesa.',
+  'Boa noite, meu docinho.',
+  'Boa noite, bobona.',
+  'Boa noite, meu bem.',
+  'Boa noite, meu anjo.',
+  'Boa noite, flor.',
+  'Boa noite, bebê.',
+  'Boa noite, meu coração.',
+  'Boa noite, estrela mais brilhante do universo.',
+  'Boa noite, coisa linda.',
+  'Boa noite, minha alegria.',
+  'Boa noite, minha gatinha.',
+  'Boa noite, minha luz.',
+  'Boa noite, minha fofinha.',
+  'Boa noite, boneca.',
+  'Boa noite, brabinha.',
+  'Boa noite, meu pedacinho de céu.'
       ],
       nightly: true // 22h–06h e 1x por noite
     },
@@ -199,21 +217,22 @@
     if (!isNightWindowNow()){
       const ms = msUntilNightStart();
       openColorModal(c, `Disponível a partir das 22:00 (faltam ${fmtDelta(ms)}).`);
-      setActions([{label:'Fechar', onClick:()=>el.modal.classList.remove('show')}]);
+      // Usa closeColor para fluxo consistente (mesmo sem cooldown).
+      setActions([{label:'Fechar', onClick:()=>closeColor()}]);
       return;
     }
 
     const nextAllowed = last ? nextNightStartFrom(last) : 0;
     if (last && tNow < nextAllowed){
       openColorModal(c, `Já abriu nesta noite. Volte após as 22:00 (${fmtDelta(nextAllowed - tNow)}).`);
-      setActions([{label:'Fechar', onClick:()=>el.modal.classList.remove('show')}]);
+      setActions([{label:'Fechar', onClick:()=>closeColor()}]);
       return;
     }
 
     // openColorModal(c, pickRandomMessage(c)); // antigo
     openColorModal(c, nextNonRepeating(c.key, c.msgs)); // novo
     localStorage.setItem(key(c.key,'last'), String(tNow));
-    setActions([{label:'Fechar', onClick:()=>el.modal.classList.remove('show')}]);
+  setActions([{label:'Fechar', onClick:()=>closeColor()}]);
   }
 
   function handleVale(c){
@@ -230,7 +249,7 @@
       (last && left>0 ? `${base}\nPróximo resgate em ${fmtDelta(left)}.` : base));
 
     setActions([
-      { label:'Fechar', onClick:()=>el.modal.classList.remove('show') },
+      { label:'Fechar', onClick:()=>closeColor() },
       {
         label:'Resgatar',
         color: c.bg,
@@ -241,7 +260,7 @@
           localStorage.setItem(key(c.key,'used'), String(newUsed));
           localStorage.setItem(key(c.key,'last'), String(now()));
           el.msg.textContent = `Vale resgatado! Restantes: ${Math.max(0,3-newUsed)}/3. Próximo em 7 dias.`;
-          setActions([{label:'Fechar', onClick:()=>el.modal.classList.remove('show')}]);
+          setActions([{label:'Fechar', onClick:()=>closeColor()}]);
         }
       }
     ]);
@@ -343,6 +362,20 @@
     }
     // Atualiza o estado de "Boa noite" conforme passa do horário
     setInterval(buildGrid, 60000); // a cada 60s
+
+    // Fechar ao clicar fora do diálogo (overlay) garantindo cooldown.
+    el.modal.addEventListener('click', function(evt){
+      if (evt.target === el.modal && el.modal.classList.contains('show')) {
+        closeColor();
+      }
+    });
+
+    // Fechar com ESC.
+    document.addEventListener('keydown', function(evt){
+      if (evt.key === 'Escape' && el.modal.classList.contains('show')) {
+        closeColor();
+      }
+    });
   });
 
   el.btnUnlock?.addEventListener('click', unlock);
